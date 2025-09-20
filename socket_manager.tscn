@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dw5oygqgj7cuo"]
+
+[ext_resource type="Script" uid="uid://ckxlpog5nuglv" path="res://socket_manager.gd" id="1_f060g"]
+
+[node name="SocketManager" type="Node"]
+script = ExtResource("1_f060g")
