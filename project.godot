@@ -10,10 +10,14 @@ config_version=5
 
 [application]
 
-config/name="SensoryTest"
-run/main_scene="uid://dw5oygqgj7cuo"
+config/name="GodotWebsocketServer"
+run/main_scene="uid://wlic4fvv32tb"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Datetime="*res://datetime.gd"
 
 [rendering]
 

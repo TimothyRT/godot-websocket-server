@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgmbonchxwtqq"]
+
+[ext_resource type="Script" uid="uid://cygyfo2djjeo1" path="res://datetime.gd" id="1_404qa"]
+
+[node name="Datetime" type="Node"]
+script = ExtResource("1_404qa")
