@@ -11,13 +11,18 @@ config_version=5
 [application]
 
 config/name="GodotWebsocketServer"
+config/version="0.1.1"
 run/main_scene="uid://wlic4fvv32tb"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
+Config="*res://config.tscn"
 Datetime="*res://datetime.gd"
+SignalBus="*res://signal_bus.tscn"
+SensorDataStore="*res://sensor_data_store.tscn"
+SocketManager="*res://socket_manager.tscn"
 
 [editor_plugins]
 

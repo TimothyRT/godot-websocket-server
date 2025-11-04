@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmvpmvn5vl44a"]
+
+[ext_resource type="Script" uid="uid://dcri82x0com83" path="res://config.gd" id="1_w2241"]
+
+[node name="Config" type="Node"]
+script = ExtResource("1_w2241")

@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://wlic4fvv32tb"]
 
-[ext_resource type="Script" uid="uid://d2lqbha40iqxk" path="res://socket_manager_v2.gd" id="1_q6rhn"]
-[ext_resource type="Script" uid="uid://cqa5cwuethg6w" path="res://addons/graph_2d/graph_2d.gd" id="2_b24c5"]
+[ext_resource type="Script" uid="uid://d2lqbha40iqxk" path="res://plot_display.gd" id="1_fivpf"]
+[ext_resource type="Script" uid="uid://cqa5cwuethg6w" path="res://addons/graph_2d/graph_2d.gd" id="2_tq3og"]
 
-[node name="SocketManagerV2" type="Node2D"]
-script = ExtResource("1_q6rhn")
+[node name="PlotDisplay" type="Node2D"]
+script = ExtResource("1_fivpf")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -26,10 +26,10 @@ theme_override_constants/margin_bottom = 20
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
-script = ExtResource("2_b24c5")
+script = ExtResource("2_tq3og")
 x_max = 100.0
-y_min = -23.0
-y_max = 22.0
+y_min = -20.0
+y_max = 20.0
 metadata/_custom_type_script = "uid://cqa5cwuethg6w"
 
 [node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/VBoxContainer"]
@@ -43,8 +43,8 @@ theme_override_constants/margin_bottom = 100
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
-script = ExtResource("2_b24c5")
+script = ExtResource("2_tq3og")
 x_max = 100.0
-y_min = -23.0
-y_max = 22.0
+y_min = -20.0
+y_max = 20.0
 metadata/_custom_type_script = "uid://cqa5cwuethg6w"
