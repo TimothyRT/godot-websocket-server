@@ -38,11 +38,11 @@ func _process(_delta):
 	
 	if connected_peers.size() > 0:
 		while ws_server.get_available_packet_count() > 0:
-			var id = ws_server.get_packet_peer()
+			var _id = ws_server.get_packet_peer()
 			var pkt = ws_server.get_packet()
 
 			var msg = pkt.get_string_from_utf8()
-			#print("[SOCKET] Got from %d: %s" % [id, msg])
+			#print("[SOCKET] Got from %d: %s" % [_id, msg])
 			_parse_message(msg)
 			
 			# broadcast to all other clients
