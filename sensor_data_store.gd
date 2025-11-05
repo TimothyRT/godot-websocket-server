@@ -1,7 +1,7 @@
 extends Node
 
 
-const SAMPLING_RATE := 0.2
+const SAMPLING_RATE := 0.03
 
 var sensor_data = []
 var temp_sensor_data = []
@@ -42,13 +42,12 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	
 	if last_update_time + delta < SAMPLING_RATE:
 		last_update_time += delta
 	
 	else:  # more than X ms have passed since last update to sensor_data
 		for player_number in range(Config.MAX_PLAYERS):
-			if player_number == 0:
+			if player_number == 0:  # plotting only works for player #1
 				for sensor_type in ["gyroscope", "accelerometer"]:
 					for axis in ["x", "y", "z"]:
 						var average = _average(temp_sensor_data[player_number][sensor_type][axis])
@@ -62,7 +61,7 @@ func _process(delta: float) -> void:
 					"client_sensor_stored",
 					player_number)
 		
-		last_update_time = 0.0
+		last_update_time = delta - last_update_time
 
 
 func _average(arr: Array) -> float:
