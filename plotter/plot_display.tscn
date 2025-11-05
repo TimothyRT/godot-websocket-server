@@ -20,9 +20,6 @@ script = ExtResource("1_fivpf")
 unique_name_in_owner = true
 script = ExtResource("3_tq3og")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="RecordingController"]
-stream = ExtResource("3_678rl")
-
 [node name="FileWriter" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("3_r7mbb")
@@ -121,6 +118,10 @@ script = ExtResource("6_lrww4")
 
 [node name="Timer" type="Timer" parent="ButtonLayer/MarginContainer/HBoxContainer/RecordingLabel"]
 wait_time = 0.2
+
+[node name="AudioBanana" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_678rl")
 
 [connection signal="recording_started" from="RecordingController" to="FileWriter" method="_on_recording_started"]
 [connection signal="recording_started" from="RecordingController" to="ButtonLayer/MarginContainer/HBoxContainer/StartRecordingButton" method="_on_recording_started"]

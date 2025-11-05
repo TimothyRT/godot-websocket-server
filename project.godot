@@ -23,10 +23,18 @@ Datetime="*res://datetime.gd"
 SignalBus="*res://signal_bus.tscn"
 SensorDataStore="*res://sensor_data_store.tscn"
 SocketManager="*res://socket_manager.tscn"
+MotionRecognition="*res://motion_recognition.tscn"
 
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/graph_2d/plugin.cfg")
+
+[input]
+
+motion_hit={
+"deadzone": 0.2,
+"events": []
+}
 
 [rendering]
 

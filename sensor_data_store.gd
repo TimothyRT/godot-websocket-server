@@ -79,3 +79,11 @@ func _on_client_sensor_retrieved(player_number: int, sensor_type: String, x: flo
 	temp_sensor_data[player_number][sensor_type]["x"].append(x)
 	temp_sensor_data[player_number][sensor_type]["y"].append(y)
 	temp_sensor_data[player_number][sensor_type]["z"].append(z)
+
+
+func retrieve_last(player_number: int, sensor_type: String) -> Vector3:
+	return Vector3(
+		sensor_data[player_number][sensor_type]["x"][-1],
+		sensor_data[player_number][sensor_type]["y"][-1],
+		sensor_data[player_number][sensor_type]["z"][-1]
+	)

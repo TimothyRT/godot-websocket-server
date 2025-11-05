@@ -22,6 +22,12 @@ func _ready():
 	SignalBus.connect("client_sensor_stored", _on_client_sensor_stored)
 
 
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("motion_hit"):
+		print("[MOTION] Hit")
+		%AudioBanana.play()
+
+
 func setup_plot():
 	%GraphGyro.remove_all()
 	%GraphAcc.remove_all()

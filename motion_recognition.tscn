@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxmeye8b0irbd"]
+
+[ext_resource type="Script" uid="uid://bljogdxajxemy" path="res://motion_recognition.gd" id="1_bq00k"]
+
+[node name="MotionRecognition" type="Node"]
+script = ExtResource("1_bq00k")
