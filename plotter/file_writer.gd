@@ -2,14 +2,7 @@ extends Node
 class_name FileWriter
 
 
-var controller: RecordingController
 var file: FileAccess
-
-
-func setup(_controller: RecordingController) -> void:
-	controller = _controller
-	controller.connect("recording_started", _on_recording_started)
-	controller.connect("recording_stopped", _on_recording_stopped)
 
 
 func _on_recording_started() -> void:
@@ -23,7 +16,7 @@ func _on_recording_started() -> void:
 		"accel_z",
 		"datetime"
 	]))
-	
+
 
 func _on_recording_stopped() -> void:
 	if file != null:

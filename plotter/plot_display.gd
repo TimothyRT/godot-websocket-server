@@ -20,16 +20,12 @@ var sensor_data = SensorDataStore.sensor_data
 func _ready():
 	setup_plot()
 	SignalBus.connect("client_sensor_stored", _on_client_sensor_stored)
-	
-	%RecordingController.setup(
-		%FileWriter,
-		%StartRecordingButton,
-		%StopRecordingButton,
-		%RecordingLabel
-	)
-	
-	
+
+
 func setup_plot():
+	%GraphGyro.remove_all()
+	%GraphAcc.remove_all()
+	
 	plot["gyroscope"]["x"] = %GraphGyro.add_plot_item("Gyroscope", Color.RED)
 	plot["gyroscope"]["y"] = %GraphGyro.add_plot_item("", Color.GREEN)
 	plot["gyroscope"]["z"] = %GraphGyro.add_plot_item("", Color.BLUE)
@@ -42,9 +38,6 @@ func _on_client_sensor_stored(player_number: int) -> void:
 	plot["gyroscope"]["x"].remove_all()
 	plot["gyroscope"]["y"].remove_all()
 	plot["gyroscope"]["z"].remove_all()
-	#print("x: " + str(sensor_data[player_number]["gyroscope"]["x"]))
-	#print("y: " + str(sensor_data[player_number]["gyroscope"]["y"]))
-	#print("z: " + str(sensor_data[player_number]["gyroscope"]["z"]))
 	for i in range(len(sensor_data[player_number]["gyroscope"]["x"])):
 		plot["gyroscope"]["x"].add_point(Vector2(i, sensor_data[player_number]["gyroscope"]["x"][i]))
 		plot["gyroscope"]["y"].add_point(Vector2(i, sensor_data[player_number]["gyroscope"]["y"][i]))

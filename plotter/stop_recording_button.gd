@@ -2,22 +2,9 @@ extends Button
 class_name StopRecordingButton
 
 
-var controller: RecordingController
-
-
-func _ready() -> void:
-	pass
-	
-	
-func setup(_controller: RecordingController) -> void:
-	controller = _controller
-	controller.connect("recording_started", _on_recording_started)
-	controller.connect("recording_stopped", _on_recording_stopped)
-
-
 func _on_recording_started() -> void:
-	print("[Stop] Recording started")
+	visible = true
 
 
 func _on_recording_stopped() -> void:
-	print("[Stop] Recording stopped")
+	visible = false

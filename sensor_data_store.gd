@@ -45,9 +45,10 @@ func _process(delta: float) -> void:
 	if last_update_time + delta < SAMPLING_RATE:
 		last_update_time += delta
 	
-	else:  # more than X ms have passed since last update to sensor_data
+	else:  # more than SAMPLING_RATE seconds have passed
 		for player_number in range(Config.MAX_PLAYERS):
-			if player_number == 0:  # plotting only works for player #1
+			# plotting currently only works for player #1
+			if player_number == 0:
 				for sensor_type in ["gyroscope", "accelerometer"]:
 					for axis in ["x", "y", "z"]:
 						var average = _average(temp_sensor_data[player_number][sensor_type][axis])
