@@ -6,8 +6,6 @@ const PORT := 9080
 var ws_server := WebSocketMultiplayerPeer.new()
 var connected_peers := []
 
-var ip_address = IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")), IP.TYPE_IPV4)
-
 
 func _ready() -> void:
 	var err = ws_server.create_server(PORT)
@@ -20,7 +18,7 @@ func _ready() -> void:
 	ws_server.peer_disconnected.connect(_on_peer_disconnected)
 
 	print("[SOCKET] WebSocket server listening on port %d" % PORT)
-	print("[SOCKET] Local IP address: ", ip_address)
+	print("[SOCKET] Local IP address: ", IpAddress.ip)
 
 
 func _on_peer_connected(id: int):

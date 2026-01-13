@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://wlic4fvv32tb"]
+[gd_scene load_steps=14 format=3 uid="uid://wlic4fvv32tb"]
 
 [ext_resource type="Script" uid="uid://d2lqbha40iqxk" path="res://plotter/plot_display.gd" id="1_fivpf"]
 [ext_resource type="Script" uid="uid://cqa5cwuethg6w" path="res://addons/graph_2d/graph_2d.gd" id="2_tq3og"]
@@ -12,6 +12,7 @@
 [ext_resource type="StyleBox" uid="uid://clgmygg8pn6ht" path="res://plotter/button_light_gray.tres" id="6_h8m52"]
 [ext_resource type="Script" uid="uid://cc00o0aqnfhbk" path="res://plotter/recording_label.gd" id="6_lrww4"]
 [ext_resource type="StyleBox" uid="uid://ddjxjgck7fx5p" path="res://plotter/button_dark_red.tres" id="9_ki3cc"]
+[ext_resource type="Script" uid="uid://dnqqqmcn1c3uk" path="res://plotter/ip_label.gd" id="12_426jy"]
 
 [node name="PlotDisplay" type="Node2D"]
 script = ExtResource("1_fivpf")
@@ -27,21 +28,26 @@ script = ExtResource("3_r7mbb")
 [node name="PlotLayer" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PlotLayer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="PlotLayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="PlotLayer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PlotLayer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="PlotLayer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 100
 theme_override_constants/margin_top = 100
 theme_override_constants/margin_right = 100
 theme_override_constants/margin_bottom = 20
 
-[node name="GraphGyro" type="Control" parent="PlotLayer/VBoxContainer/MarginContainer"]
+[node name="GraphGyro" type="Control" parent="PlotLayer/ScrollContainer/VBoxContainer/MarginContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
@@ -51,14 +57,14 @@ y_min = -20.0
 y_max = 20.0
 metadata/_custom_type_script = "uid://cqa5cwuethg6w"
 
-[node name="MarginContainer2" type="MarginContainer" parent="PlotLayer/VBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="PlotLayer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 100
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 100
 theme_override_constants/margin_bottom = 100
 
-[node name="GraphAcc" type="Control" parent="PlotLayer/VBoxContainer/MarginContainer2"]
+[node name="GraphAcc" type="Control" parent="PlotLayer/ScrollContainer/VBoxContainer/MarginContainer2"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
@@ -118,6 +124,15 @@ script = ExtResource("6_lrww4")
 
 [node name="Timer" type="Timer" parent="ButtonLayer/MarginContainer/HBoxContainer/RecordingLabel"]
 wait_time = 0.2
+
+[node name="TextLayer" type="CanvasLayer" parent="."]
+
+[node name="IPLabel" type="Label" parent="TextLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "IP Address: "
+script = ExtResource("12_426jy")
 
 [node name="AudioBanana" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
