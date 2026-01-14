@@ -57,12 +57,12 @@ func _on_client_sensor_stored(player_number: int) -> void:
 		plot["accelerometer"]["y"].add_point(Vector2(i, sensor_data[player_number]["accelerometer"]["y"][i]))
 		plot["accelerometer"]["z"].add_point(Vector2(i, sensor_data[player_number]["accelerometer"]["z"][i]))
 	
-	%FileWriter.write(
-		str(sensor_data[player_number]["gyroscope"]["x"][-1]),
-		str(sensor_data[player_number]["gyroscope"]["y"][-1]),
-		str(sensor_data[player_number]["gyroscope"]["z"][-1]),
-		str(sensor_data[player_number]["accelerometer"]["x"][-1]),
-		str(sensor_data[player_number]["accelerometer"]["y"][-1]),
-		str(sensor_data[player_number]["accelerometer"]["z"][-1]),
-		Datetime.now(true)
-	)
+	#%FileWriter.write(
+		#str(sensor_data[player_number]["gyroscope"]["x"][-1]),
+		#str(sensor_data[player_number]["gyroscope"]["y"][-1]),
+		#str(sensor_data[player_number]["gyroscope"]["z"][-1]),
+		#str(sensor_data[player_number]["accelerometer"]["x"][-1]),
+		#str(sensor_data[player_number]["accelerometer"]["y"][-1]),
+		#str(sensor_data[player_number]["accelerometer"]["z"][-1]),
+		#Datetime.now(true)
+	#)
