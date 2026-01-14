@@ -18,7 +18,7 @@ var sensor_data = SensorDataStore.sensor_data
 
 
 func _ready():
-	setup_plot()
+	_setup_plot()
 	SignalBus.connect("client_sensor_stored", _on_client_sensor_stored)
 
 
@@ -28,7 +28,7 @@ func _input(event: InputEvent) -> void:
 		%AudioBanana.play()
 
 
-func setup_plot():
+func _setup_plot():
 	%GraphGyro.remove_all()
 	%GraphAcc.remove_all()
 	

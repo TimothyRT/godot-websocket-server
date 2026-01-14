@@ -1,7 +1,7 @@
 extends Node
 
 
-const SAMPLING_RATE := 0.03
+const SAMPLING_RATE := 0.03  # in seconds
 
 var sensor_data = []
 var temp_sensor_data = []
@@ -10,7 +10,7 @@ var last_update_time := 0.0  # in seconds
 
 
 func _ready() -> void:
-	SignalBus.connect("client_sensor_retrieved", _on_client_sensor_retrieved)
+	SignalBus.client_sensor_retrieved.connect(_on_client_sensor_retrieved)
 	
 	for i in range(Config.MAX_PLAYERS):
 		temp_sensor_data.append({
