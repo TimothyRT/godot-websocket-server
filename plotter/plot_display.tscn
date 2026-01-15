@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://wlic4fvv32tb"]
+[gd_scene load_steps=14 format=3 uid="uid://wlic4fvv32tb"]
 
 [ext_resource type="Script" uid="uid://d2lqbha40iqxk" path="res://plotter/plot_display.gd" id="1_fivpf"]
 [ext_resource type="Script" uid="uid://cqa5cwuethg6w" path="res://addons/graph_2d/graph_2d.gd" id="2_tq3og"]
@@ -13,7 +13,6 @@
 [ext_resource type="Script" uid="uid://cc00o0aqnfhbk" path="res://plotter/recording_label.gd" id="6_lrww4"]
 [ext_resource type="StyleBox" uid="uid://ddjxjgck7fx5p" path="res://plotter/button_dark_red.tres" id="9_ki3cc"]
 [ext_resource type="Script" uid="uid://dnqqqmcn1c3uk" path="res://plotter/ip_label.gd" id="12_426jy"]
-[ext_resource type="Script" uid="uid://drlnq3nwhv04p" path="res://plotter/mode_label.gd" id="13_3igcu"]
 
 [node name="PlotDisplay" type="Node2D"]
 script = ExtResource("1_fivpf")
@@ -149,14 +148,11 @@ script = ExtResource("12_426jy")
 unique_name_in_owner = true
 layout_mode = 2
 text = ":( Inference mode is inactive."
-script = ExtResource("13_3igcu")
 
 [node name="AudioBanana" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("3_678rl")
 
-[connection signal="inference_threshold_negated" from="RecordingController" to="." method="_on_recording_controller_inference_threshold_negated"]
-[connection signal="inference_threshold_reached" from="RecordingController" to="." method="_on_recording_controller_inference_threshold_reached"]
 [connection signal="recording_started" from="RecordingController" to="FileWriter" method="_on_recording_started"]
 [connection signal="recording_started" from="RecordingController" to="ButtonLayer/MarginContainer/HBoxContainer/StartRecordingButton" method="_on_recording_started"]
 [connection signal="recording_started" from="RecordingController" to="ButtonLayer/MarginContainer/HBoxContainer/StopRecordingButton" method="_on_recording_started"]

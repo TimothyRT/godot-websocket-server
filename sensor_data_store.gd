@@ -62,7 +62,6 @@ func _process(delta: float) -> void:
 					"client_sensor_stored",
 					player_number)
 		
-		#print("last_update_time: " + str(last_update_time) + "; delta: " + str(delta))
 		last_update_time = delta - last_update_time
 
 
@@ -82,13 +81,9 @@ func _on_client_sensor_retrieved(player_number: int, sensor_type: String, x: flo
 	temp_sensor_data[player_number][sensor_type]["z"].append(z)
 
 
-func retrieve(player_number: int, sensor_type: String, index: int) -> Vector3:
-	return Vector3(
-		sensor_data[player_number][sensor_type]["x"][index],
-		sensor_data[player_number][sensor_type]["y"][index],
-		sensor_data[player_number][sensor_type]["z"][index]
-	)
-
-
 func retrieve_last(player_number: int, sensor_type: String) -> Vector3:
-	return retrieve(player_number, sensor_type, -1)
+	return Vector3(
+		sensor_data[player_number][sensor_type]["x"][-1],
+		sensor_data[player_number][sensor_type]["y"][-1],
+		sensor_data[player_number][sensor_type]["z"][-1]
+	)
