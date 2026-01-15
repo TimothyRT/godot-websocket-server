@@ -1,7 +1,7 @@
 extends Node
 
 
-const SAMPLING_RATE := 0.03  # in seconds
+const SAMPLING_RATE := 0.06  # in seconds
 
 var sensor_data = []
 var temp_sensor_data = []

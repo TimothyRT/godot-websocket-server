@@ -43,7 +43,7 @@ func _process(_delta):
 			#print("[SOCKET] Got from %d: %s" % [_id, msg])
 			_parse_message(msg)
 			
-			# broadcast to all other clients
+			# Broadcast to all other clients
 			#for peer_id in connected_peers:
 				#if peer_id != id and ws_server.is_peer_connected(peer_id):
 					#ws_server.set_target_peer(peer_id)
@@ -51,22 +51,10 @@ func _process(_delta):
 
 
 func _parse_message(msg: String):
-	var sensor_type: String
-	var regex_type = RegEx.new()
-	regex_type.compile("(Accelerometer)|(Gyroscope)")
-	var match_type: RegExMatch = regex_type.search(msg)
-	if match_type != null:
-		sensor_type = match_type.get_string().to_lower()
-	else:
-		return
-	
-	var regex_num = RegEx.new()
-	regex_num.compile(":\\s(-?\\d+\\.\\d+)")
-	var match_arr: Array[RegExMatch] = regex_num.search_all(msg)
-	if len(match_arr) == 3:
-		var x = float(match_arr[0].get_string(1))
-		var y = float(match_arr[1].get_string(1))
-		var z = float(match_arr[2].get_string(1))
+	var parsed = JSON.parse_string(msg)
+	if parsed != null:
+		var x = parsed["x"]
+		var y = parsed["y"]
+		var z = parsed["z"]
+		var sensor_type = parsed["sensor"]
 		SignalBus.emit_signal("client_sensor_retrieved", 0, sensor_type, x, y, z)
-	else:
-		return
