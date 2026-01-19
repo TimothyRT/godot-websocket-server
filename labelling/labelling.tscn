@@ -1,0 +1,241 @@
+[gd_scene load_steps=17 format=3 uid="uid://c1yi2k4m16awc"]
+
+[ext_resource type="Script" uid="uid://dp3jbmnidxtem" path="res://labelling/labelling.gd" id="1_ctu61"]
+[ext_resource type="Script" uid="uid://5d8mmcmtf30i" path="res://labelling/go_to_plot_display_button.gd" id="2_5w5y5"]
+[ext_resource type="Script" uid="uid://b1c52xo55eqms" path="res://labelling/csv_option.gd" id="3_2aqdh"]
+[ext_resource type="Script" uid="uid://ddrddcvnj2owv" path="res://labelling/csv_folder_button.gd" id="3_hmqgh"]
+[ext_resource type="Script" uid="uid://rfctx7vt45xh" path="res://labelling/index_label.gd" id="5_07gks"]
+[ext_resource type="Script" uid="uid://be2qc23mw6ct4" path="res://labelling/index_edit.gd" id="6_g2f1o"]
+[ext_resource type="Script" uid="uid://xe45b74lh3g7" path="res://labelling/prev_button.gd" id="6_ou6a3"]
+[ext_resource type="Script" uid="uid://by4voqdh4uqjd" path="res://labelling/graph_label.gd" id="7_m0imm"]
+[ext_resource type="Script" uid="uid://cdr4sl74y6ulg" path="res://labelling/graph_gyro.gd" id="8_m0imm"]
+[ext_resource type="Script" uid="uid://bhikp68uhxh46" path="res://labelling/next_button.gd" id="8_x5nh3"]
+[ext_resource type="Script" uid="uid://c1qdurv81auis" path="res://labelling/graph_accel.gd" id="9_cqcjq"]
+[ext_resource type="Script" uid="uid://c37d8o1xidxdl" path="res://labelling/annotation_saver.gd" id="9_yyj78"]
+[ext_resource type="Script" uid="uid://dt62bbkwqao8u" path="res://labelling/delete_sequence_button.gd" id="10_ay7fy"]
+[ext_resource type="Script" uid="uid://b0d26isf4limd" path="res://labelling/save_sequence_button.gd" id="10_oa8af"]
+[ext_resource type="Script" uid="uid://ceo7tflg7c3na" path="res://labelling/save_file_button.gd" id="11_oa8af"]
+[ext_resource type="Script" uid="uid://npiamy53lvqo" path="res://labelling/annotations_list.gd" id="16_oa8af"]
+
+[node name="Labelling" type="Node2D"]
+script = ExtResource("1_ctu61")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="GoToPlotDisplayButton" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Click to go back to plot display"
+script = ExtResource("2_5w5y5")
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="CSVLabel" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Open CSV file:"
+
+[node name="CSVOption" type="OptionButton" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer2/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+script = ExtResource("3_2aqdh")
+
+[node name="CSVFolderButton" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer2/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Choose folder"
+script = ExtResource("3_hmqgh")
+
+[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_right = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="IndexLabel" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Index of data point to examine:
+(valid: 29-144) [inclusive]"
+script = ExtResource("5_07gks")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PrevButton" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Prev"
+script = ExtResource("6_ou6a3")
+
+[node name="IndexEdit" type="LineEdit" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+script = ExtResource("6_g2f1o")
+
+[node name="NextButton" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Next"
+script = ExtResource("8_x5nh3")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="MotionTypeLabel" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Motion type:"
+
+[node name="MotionTypeEdit" type="OptionButton" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+item_count = 7
+popup/item_0/text = "IDLE"
+popup/item_0/id = 0
+popup/item_1/text = "HIT"
+popup/item_1/id = 1
+popup/item_2/text = "SWING_LEFT"
+popup/item_2/id = 2
+popup/item_3/text = "SWING_RIGHT"
+popup/item_3/id = 3
+popup/item_4/text = "SHAKE"
+popup/item_4/id = 4
+popup/item_5/text = "TILT_UP"
+popup/item_5/id = 5
+popup/item_6/text = "TILT_DOWN"
+popup/item_6/id = 6
+
+[node name="AnnotationSaver" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("9_yyj78")
+
+[node name="SaveSequenceButton" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/AnnotationSaver"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Save annotated sequence"
+script = ExtResource("10_oa8af")
+
+[node name="DeleteSequenceButton" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/AnnotationSaver"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Delete last annotated sequence"
+script = ExtResource("10_ay7fy")
+
+[node name="SaveFileButton" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/AnnotationSaver"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Save all annotations to new file"
+script = ExtResource("11_oa8af")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GraphLabel" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Viewing: Point 0 to 29 (145 data points in this CSV file)"
+script = ExtResource("7_m0imm")
+
+[node name="GraphGyro" type="Control" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(0, 280)
+layout_mode = 2
+script = ExtResource("8_m0imm")
+x_max = 5.0
+y_min = -17.0
+y_max = 18.0
+metadata/_custom_type_script = "uid://cqa5cwuethg6w"
+
+[node name="GraphAccel" type="Control" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(0, 280)
+layout_mode = 2
+script = ExtResource("9_cqcjq")
+x_max = 5.0
+y_min = -31.0
+y_max = 32.0
+metadata/_custom_type_script = "uid://cqa5cwuethg6w"
+
+[node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 40
+
+[node name="AnnotationsList" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer4"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Labeled sequences:"
+autowrap_mode = 2
+script = ExtResource("16_oa8af")
+
+[connection signal="csv_opened" from="." to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/IndexLabel" method="_on_labelling_csv_opened"]
+[connection signal="csv_opened" from="." to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/IndexEdit" method="_on_labelling_csv_opened"]
+[connection signal="csv_opened" from="." to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2/GraphGyro" method="_on_labelling_csv_opened"]
+[connection signal="csv_opened" from="." to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2/GraphAccel" method="_on_labelling_csv_opened"]
+[connection signal="next_button_pressed" from="." to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/IndexEdit" method="_on_labelling_next_button_pressed"]
+[connection signal="prev_button_pressed" from="." to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/IndexEdit" method="_on_labelling_prev_button_pressed"]
+[connection signal="item_selected" from="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer2/HBoxContainer/CSVOption" to="." method="_on_csv_option_item_selected"]
+[connection signal="index_updated" from="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/IndexEdit" to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2/GraphLabel" method="_on_index_edit_index_updated"]
+[connection signal="index_updated" from="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/IndexEdit" to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2/GraphGyro" method="_on_index_edit_index_updated"]
+[connection signal="index_updated" from="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/IndexEdit" to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2/GraphAccel" method="_on_index_edit_index_updated"]
+[connection signal="text_changed" from="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/IndexEdit" to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/IndexEdit" method="_on_text_changed"]
+[connection signal="annotations_updated" from="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/AnnotationSaver" to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer4/AnnotationsList" method="_on_annotation_saver_annotations_updated"]

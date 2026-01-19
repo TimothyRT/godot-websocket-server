@@ -54,10 +54,10 @@ func _process(delta: float) -> void:
 						var average = _average(temp_sensor_data[player_number][sensor_type][axis])
 						temp_sensor_data[player_number][sensor_type][axis] = []
 						sensor_data[player_number][sensor_type][axis].append(average)
-			
+						
 						if len(sensor_data[player_number][sensor_type][axis]) > 100:
 							sensor_data[player_number][sensor_type][axis] = sensor_data[player_number][sensor_type][axis].slice(1, 100)
-		
+				
 				SignalBus.emit_signal(
 					"client_sensor_stored",
 					player_number)

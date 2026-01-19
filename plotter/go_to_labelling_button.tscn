@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bypcrbia1oa4r"]
+
+[ext_resource type="Script" uid="uid://c1hqxg04872y2" path="res://plotter/go_to_labelling_button.gd" id="1_s7vf0"]
+
+[node name="ContextButton" type="Button"]
+size_flags_horizontal = 0
+text = "Click to switch context"
+script = ExtResource("1_s7vf0")

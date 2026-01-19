@@ -2,4 +2,4 @@ extends Label
 
 
 func _ready() -> void:
-	text += str(IpAddress.ip)
+	text += IpAddress.ip + "   (Application version " + ProjectSettings.get_setting("application/config/version") + ")"

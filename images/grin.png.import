@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cj3poahij8uhx"
-path="res://.godot/imported/frown.png-0061fc598c95c6b6a69ecbf940667e06.ctex"
+uid="uid://cf88itrxer4mi"
+path="res://.godot/imported/grin.png-b1ca7e9ea39e0f371e2a373a11c22da6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://emojis/frown.png"
-dest_files=["res://.godot/imported/frown.png-0061fc598c95c6b6a69ecbf940667e06.ctex"]
+source_file="res://images/grin.png"
+dest_files=["res://.godot/imported/grin.png-b1ca7e9ea39e0f371e2a373a11c22da6.ctex"]
 
 [params]
 
