@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://c1yi2k4m16awc"]
+[gd_scene load_steps=19 format=3 uid="uid://c1yi2k4m16awc"]
 
 [ext_resource type="Script" uid="uid://dp3jbmnidxtem" path="res://labelling/labelling.gd" id="1_ctu61"]
 [ext_resource type="Script" uid="uid://5d8mmcmtf30i" path="res://labelling/go_to_plot_display_button.gd" id="2_5w5y5"]
@@ -15,7 +15,9 @@
 [ext_resource type="Script" uid="uid://dt62bbkwqao8u" path="res://labelling/delete_sequence_button.gd" id="10_ay7fy"]
 [ext_resource type="Script" uid="uid://b0d26isf4limd" path="res://labelling/save_sequence_button.gd" id="10_oa8af"]
 [ext_resource type="Script" uid="uid://ceo7tflg7c3na" path="res://labelling/save_file_button.gd" id="11_oa8af"]
+[ext_resource type="Script" uid="uid://cfxvdatatye4c" path="res://labelling/graph_mag.gd" id="16_7pur0"]
 [ext_resource type="Script" uid="uid://npiamy53lvqo" path="res://labelling/annotations_list.gd" id="16_oa8af"]
+[ext_resource type="Script" uid="uid://mgeuq7n53ctn" path="res://labelling/graph_gesture.gd" id="17_cnd0k"]
 
 [node name="Labelling" type="Node2D"]
 script = ExtResource("1_ctu61")
@@ -195,11 +197,18 @@ layout_mode = 2
 text = "Viewing: Point 0 to 29 (145 data points in this CSV file)"
 script = ExtResource("7_m0imm")
 
+[node name="GraphGesture" type="Control" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(0, 280)
+layout_mode = 2
+script = ExtResource("17_cnd0k")
+x_max = 30.0
+metadata/_custom_type_script = "uid://cqa5cwuethg6w"
+
 [node name="GraphGyro" type="Control" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2"]
 custom_minimum_size = Vector2(0, 280)
 layout_mode = 2
 script = ExtResource("8_m0imm")
-x_max = 5.0
+x_max = 30.0
 y_min = -17.0
 y_max = 18.0
 metadata/_custom_type_script = "uid://cqa5cwuethg6w"
@@ -208,9 +217,18 @@ metadata/_custom_type_script = "uid://cqa5cwuethg6w"
 custom_minimum_size = Vector2(0, 280)
 layout_mode = 2
 script = ExtResource("9_cqcjq")
-x_max = 5.0
-y_min = -31.0
-y_max = 32.0
+x_max = 30.0
+y_min = -53.0
+y_max = 50.0
+metadata/_custom_type_script = "uid://cqa5cwuethg6w"
+
+[node name="GraphMag" type="Control" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(0, 280)
+layout_mode = 2
+script = ExtResource("16_7pur0")
+x_max = 30.0
+y_min = -41.0
+y_max = 40.0
 metadata/_custom_type_script = "uid://cqa5cwuethg6w"
 
 [node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
@@ -229,13 +247,17 @@ script = ExtResource("16_oa8af")
 
 [connection signal="csv_opened" from="." to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/IndexLabel" method="_on_labelling_csv_opened"]
 [connection signal="csv_opened" from="." to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/IndexEdit" method="_on_labelling_csv_opened"]
+[connection signal="csv_opened" from="." to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2/GraphGesture" method="_on_labelling_csv_opened"]
 [connection signal="csv_opened" from="." to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2/GraphGyro" method="_on_labelling_csv_opened"]
 [connection signal="csv_opened" from="." to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2/GraphAccel" method="_on_labelling_csv_opened"]
+[connection signal="csv_opened" from="." to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2/GraphMag" method="_on_labelling_csv_opened"]
 [connection signal="next_button_pressed" from="." to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/IndexEdit" method="_on_labelling_next_button_pressed"]
 [connection signal="prev_button_pressed" from="." to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/IndexEdit" method="_on_labelling_prev_button_pressed"]
 [connection signal="item_selected" from="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer2/HBoxContainer/CSVOption" to="." method="_on_csv_option_item_selected"]
 [connection signal="index_updated" from="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/IndexEdit" to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2/GraphLabel" method="_on_index_edit_index_updated"]
+[connection signal="index_updated" from="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/IndexEdit" to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2/GraphGesture" method="_on_index_edit_index_updated"]
 [connection signal="index_updated" from="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/IndexEdit" to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2/GraphGyro" method="_on_index_edit_index_updated"]
 [connection signal="index_updated" from="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/IndexEdit" to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2/GraphAccel" method="_on_index_edit_index_updated"]
+[connection signal="index_updated" from="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/IndexEdit" to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2/GraphMag" method="_on_index_edit_index_updated"]
 [connection signal="text_changed" from="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/IndexEdit" to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/IndexEdit" method="_on_text_changed"]
 [connection signal="annotations_updated" from="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer/AnnotationSaver" to="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer4/AnnotationsList" method="_on_annotation_saver_annotations_updated"]

@@ -41,7 +41,7 @@ func csv_to_dict(file_path: String) -> Dictionary:
 		# Check if the line is not empty (sometimes an extra empty line is read at the end)
 		if line_data.size() > 0:
 			# Process the data (e.g., print it, store in a dictionary/array)
-			print("Read line data: ", line_data)
+			#print("Read line data: ", line_data)
 			for i in range(len(line_data)):
 				var val = line_data[i]
 				if val.is_valid_float():
@@ -64,7 +64,6 @@ func _on_csv_option_item_selected(index: int) -> void:
 	if dict.size() > 0:
 		csv_data = dict
 		csv_row_count = csv_data[csv_header[0]].size()
-		print("this: ", str(csv_data[csv_header[0]]))
 		csv_opened.emit(csv_row_count)
 		print("CSV successfully opened and read!")
 

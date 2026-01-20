@@ -99,7 +99,7 @@ layout_mode = 2
 theme_override_constants/margin_left = 100
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 100
-theme_override_constants/margin_bottom = 40
+theme_override_constants/margin_bottom = 20
 
 [node name="GraphAcc" type="Control" parent="PlotLayer/ScrollContainer/VBoxContainer/MarginContainer3"]
 unique_name_in_owner = true
@@ -109,6 +109,58 @@ script = ExtResource("2_tq3og")
 x_max = 100.0
 y_min = -20.0
 y_max = 20.0
+metadata/_custom_type_script = "uid://cqa5cwuethg6w"
+
+[node name="MarginContainer4" type="MarginContainer" parent="PlotLayer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 20
+
+[node name="GraphMag" type="Control" parent="PlotLayer/ScrollContainer/VBoxContainer/MarginContainer4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+script = ExtResource("2_tq3og")
+x_max = 100.0
+y_min = -40.0
+y_max = 40.0
+metadata/_custom_type_script = "uid://cqa5cwuethg6w"
+
+[node name="MarginContainer5" type="MarginContainer" parent="PlotLayer/ScrollContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 20
+
+[node name="GraphAHRS" type="Control" parent="PlotLayer/ScrollContainer/VBoxContainer/MarginContainer5"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+script = ExtResource("2_tq3og")
+x_max = 100.0
+y_min = -2.0
+y_max = 2.0
+metadata/_custom_type_script = "uid://cqa5cwuethg6w"
+
+[node name="MarginContainer6" type="MarginContainer" parent="PlotLayer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 40
+
+[node name="GraphGesture" type="Control" parent="PlotLayer/ScrollContainer/VBoxContainer/MarginContainer6"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+script = ExtResource("2_tq3og")
+x_max = 100.0
+y_min = -2.0
+y_max = 2.0
 metadata/_custom_type_script = "uid://cqa5cwuethg6w"
 
 [node name="ButtonLayer" type="CanvasLayer" parent="."]

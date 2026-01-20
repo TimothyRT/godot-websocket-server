@@ -39,6 +39,4 @@ func _pressed() -> void:
 
 func _on_dir_selected(dir: String) -> void:	
 	var files: Array[Variant] = _get_csv_files(dir)
-	#print("dir selected: ", dir)
-	#print("files: ", files)
 	files_retrieved.emit(dir, files)

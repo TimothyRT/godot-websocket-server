@@ -13,6 +13,13 @@ func _pressed() -> void:
 				arr.append(str(owner.csv_data["accel_x"][i]))
 				arr.append(str(owner.csv_data["accel_y"][i]))
 				arr.append(str(owner.csv_data["accel_z"][i]))
+				arr.append(str(owner.csv_data["mag_x"][i]))
+				arr.append(str(owner.csv_data["mag_y"][i]))
+				arr.append(str(owner.csv_data["mag_z"][i]))
+				arr.append(str(owner.csv_data["ahrs_x"][i]))
+				arr.append(str(owner.csv_data["ahrs_y"][i]))
+				arr.append(str(owner.csv_data["ahrs_z"][i]))
+				arr.append(str(owner.csv_data["ahrs_w"][i]))
 			arr.append(%MotionTypeEdit.get_item_text(%MotionTypeEdit.selected))
 	
 			%AnnotationSaver.add_annotation(arr)

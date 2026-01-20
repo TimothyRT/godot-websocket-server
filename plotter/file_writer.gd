@@ -14,7 +14,15 @@ func _on_recording_started() -> void:
 		"accel_x",
 		"accel_y",
 		"accel_z",
-		"datetime"
+		"mag_x",
+		"mag_y",
+		"mag_z",
+		"ahrs_x",
+		"ahrs_y",
+		"ahrs_z",
+		"ahrs_w",
+		"datetime",
+		"gesture"
 	]))
 
 

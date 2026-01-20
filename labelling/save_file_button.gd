@@ -16,6 +16,13 @@ func _pressed() -> void:
 			header_arr.append("accel_x_%d" % [i])
 			header_arr.append("accel_y_%d" % [i])
 			header_arr.append("accel_z_%d" % [i])
+			header_arr.append("mag_x_%d" % [i])
+			header_arr.append("mag_y_%d" % [i])
+			header_arr.append("mag_z_%d" % [i])
+			header_arr.append("ahrs_x_%d" % [i])
+			header_arr.append("ahrs_y_%d" % [i])
+			header_arr.append("ahrs_z_%d" % [i])
+			header_arr.append("ahrs_w_%d" % [i])
 		header_arr.append("motion_type")
 		file.store_csv_line(header_arr)
 		

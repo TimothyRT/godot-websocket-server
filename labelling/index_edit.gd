@@ -3,7 +3,7 @@ extends LineEdit
 
 signal index_updated(index: int)
 
-@export var step := 2
+@export var step := 10
 
 
 func _on_labelling_csv_opened(csv_row_count: int) -> void:
@@ -21,7 +21,6 @@ func _on_text_changed(new_text: String) -> void:
 		var new_index = int(new_text)
 		if new_index >= (Config.WINDOW_WIDTH - 1) and new_index <= (owner.csv_row_count - 1):
 			index_updated.emit(int(new_text))
-			print('testes')
 
 
 func _on_labelling_next_button_pressed() -> void:

@@ -53,8 +53,4 @@ func _process(_delta):
 func _parse_message(msg: String):
 	var parsed = JSON.parse_string(msg)
 	if parsed != null:
-		var x = parsed["x"]
-		var y = parsed["y"]
-		var z = parsed["z"]
-		var sensor_type = parsed["sensor"]
-		SignalBus.emit_signal("client_sensor_retrieved", 0, sensor_type, x, y, z)
+		SignalBus.client_sensor_retrieved.emit(parsed)

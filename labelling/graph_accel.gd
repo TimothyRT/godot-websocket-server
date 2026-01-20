@@ -10,7 +10,7 @@ var accel_z: PlotItem
 
 func _on_labelling_csv_opened(csv_row_count: int) -> void:
 	if csv_row_count >= Config.WINDOW_WIDTH:
-		accel_x = add_plot_item("", Color.RED)
+		accel_x = add_plot_item("Accelerometer", Color.RED)
 		accel_y = add_plot_item("", Color.GREEN)
 		accel_z = add_plot_item("", Color.BLUE)
 	else:

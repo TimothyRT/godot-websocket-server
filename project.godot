@@ -23,7 +23,7 @@ Datetime="*res://datetime.gd"
 SignalBus="*res://signal_bus.tscn"
 SensorDataStore="*res://sensor_data_store.tscn"
 SocketManager="*res://socket_manager.tscn"
-MotionRecognition="*res://motion_recognition.tscn"
+MotionRecognition="res://motion_recognition.tscn"
 IpAddress="*res://utils/IPAddress.tscn"
 
 [editor_plugins]

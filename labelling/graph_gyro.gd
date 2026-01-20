@@ -10,7 +10,7 @@ var gyro_z: PlotItem
 
 func _on_labelling_csv_opened(csv_row_count: int) -> void:
 	if csv_row_count >= Config.WINDOW_WIDTH:
-		gyro_x = add_plot_item("", Color.RED)
+		gyro_x = add_plot_item("Gyroscope", Color.RED)
 		gyro_y = add_plot_item("", Color.GREEN)
 		gyro_z = add_plot_item("", Color.BLUE)
 	else:
