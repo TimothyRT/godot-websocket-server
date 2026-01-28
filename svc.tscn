@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://f81r13fkhhqs"]
+
+[ext_resource type="Script" uid="uid://ckdyxsi3jme83" path="res://svc.gd" id="1_hggkh"]
+
+[node name="SVC" type="ONNXLoader"]
+script = ExtResource("1_hggkh")

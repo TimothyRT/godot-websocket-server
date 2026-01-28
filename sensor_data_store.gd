@@ -63,40 +63,27 @@ func _ready() -> void:
 
 
 func _on_client_sensor_retrieved(_data_dict: Dictionary) -> void:
-	data_dict["gyro_x"].append_array(_data_dict["gyro_x"])
-	data_dict["gyro_y"].append_array(_data_dict["gyro_y"])
-	data_dict["gyro_z"].append_array(_data_dict["gyro_z"])
-	data_dict["acc_x"].append_array(_data_dict["acc_x"])
-	data_dict["acc_y"].append_array(_data_dict["acc_y"])
-	data_dict["acc_z"].append_array(_data_dict["acc_z"])
-	data_dict["mag_x"].append_array(_data_dict["mag_x"])
-	data_dict["mag_y"].append_array(_data_dict["mag_y"])
-	data_dict["mag_z"].append_array(_data_dict["mag_z"])
-	data_dict["ahrs_x"].append_array(_data_dict["ahrs_x"])
-	data_dict["ahrs_y"].append_array(_data_dict["ahrs_y"])
-	data_dict["ahrs_z"].append_array(_data_dict["ahrs_z"])
-	data_dict["ahrs_w"].append_array(_data_dict["ahrs_w"])
-	data_dict["datetime"].append_array(_data_dict["datetime"])
-	data_dict["gesture"].append_array(_data_dict["gesture"])
+	for key in _data_dict:
+		data_dict[key].append_array(_data_dict[key])
 	
 	if len(data_dict["gesture"]) > 100:
-		data_dict["gyro_x"] = data_dict["gyro_x"].slice(10, -1)
-		data_dict["gyro_y"] = data_dict["gyro_y"].slice(10, -1)
-		data_dict["gyro_z"] = data_dict["gyro_z"].slice(10, -1)
-		data_dict["acc_x"] = data_dict["acc_x"].slice(10, -1)
-		data_dict["acc_y"] = data_dict["acc_y"].slice(10, -1)
-		data_dict["acc_z"] = data_dict["acc_z"].slice(10, -1)
-		data_dict["mag_x"] = data_dict["mag_x"].slice(10, -1)
-		data_dict["mag_y"] = data_dict["mag_y"].slice(10, -1)
-		data_dict["mag_z"] = data_dict["mag_z"].slice(10, -1)
-		data_dict["ahrs_x"] = data_dict["ahrs_x"].slice(10, -1)
-		data_dict["ahrs_y"] = data_dict["ahrs_y"].slice(10, -1)
-		data_dict["ahrs_z"] = data_dict["ahrs_z"].slice(10, -1)
-		data_dict["ahrs_w"] = data_dict["ahrs_w"].slice(10, -1)
-		data_dict["datetime"] = data_dict["datetime"].slice(10, -1)
-		data_dict["gesture"] = data_dict["gesture"].slice(10, -1)
+		var excess = len(data_dict["gesture"]) - 100
+
+		for k in data_dict:
+			data_dict[k] = data_dict[k].slice(excess)
 	
 	SignalBus.client_sensor_stored.emit(10)
+	
+	#var input_arr = []
+	#for i in range(0, 30, 3):
+		#input_arr += data_dict["gyro_x"].slice(100 - Config.WINDOW_WIDTH + i, 100 - Config.WINDOW_WIDTH + i + 3)
+		#input_arr += data_dict["gyro_y"].slice(100 - Config.WINDOW_WIDTH + i, 100 - Config.WINDOW_WIDTH + i + 3)
+		#input_arr += data_dict["gyro_z"].slice(100 - Config.WINDOW_WIDTH + i, 100 - Config.WINDOW_WIDTH + i + 3)
+		#input_arr += data_dict["acc_x"].slice(100 - Config.WINDOW_WIDTH + i, 100 - Config.WINDOW_WIDTH + i + 3)
+		#input_arr += data_dict["acc_y"].slice(100 - Config.WINDOW_WIDTH + i, 100 - Config.WINDOW_WIDTH + i + 3)
+		#input_arr += data_dict["acc_z"].slice(100 - Config.WINDOW_WIDTH + i, 100 - Config.WINDOW_WIDTH + i + 3)
+	#var res: int = Svc.classify(input_arr)
+	#SignalBus.classification_made.emit(res)
 
 
 #func retrieve_last(player_number: int, sensor_type: String) -> Vector3:

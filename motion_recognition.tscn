@@ -1,6 +1,48 @@
-[gd_scene load_steps=2 format=3 uid="uid://dxmeye8b0irbd"]
+[gd_scene load_steps=9 format=3 uid="uid://dxmeye8b0irbd"]
 
 [ext_resource type="Script" uid="uid://bljogdxajxemy" path="res://motion_recognition.gd" id="1_bq00k"]
+[ext_resource type="AudioStream" uid="uid://c4eraiuc8tlw5" path="res://audio/hit.wav" id="2_c6o5e"]
+[ext_resource type="AudioStream" uid="uid://cnwhv7yb7rt0g" path="res://audio/shake.wav" id="3_w2qyi"]
+[ext_resource type="AudioStream" uid="uid://dntmx2cwrwpuo" path="res://audio/stir.wav" id="4_cnpfg"]
+[ext_resource type="AudioStream" uid="uid://d22phs0wxtrp4" path="res://audio/swing_left.wav" id="5_oljtg"]
+[ext_resource type="AudioStream" uid="uid://bm3byrrnntgkm" path="res://audio/swing_right.wav" id="6_i5ea0"]
+[ext_resource type="AudioStream" uid="uid://dsgyjm0fdky7l" path="res://audio/tilt_down.wav" id="7_4dm5w"]
+[ext_resource type="AudioStream" uid="uid://djoql7q3tc2iv" path="res://audio/tilt_up.wav" id="8_ge50k"]
 
 [node name="MotionRecognition" type="Node"]
 script = ExtResource("1_bq00k")
+
+[node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.5
+one_shot = true
+
+[node name="AudioHit" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("2_c6o5e")
+
+[node name="AudioShake" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_w2qyi")
+
+[node name="AudioStir" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_cnpfg")
+
+[node name="AudioSwingLeft" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("5_oljtg")
+
+[node name="AudioSwingRight" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("6_i5ea0")
+
+[node name="AudioTiltDown" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("7_4dm5w")
+
+[node name="AudioTiltUp" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("8_ge50k")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

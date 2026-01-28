@@ -146,7 +146,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-item_count = 7
+item_count = 10
 popup/item_0/text = "IDLE"
 popup/item_0/id = 0
 popup/item_1/text = "HIT"
@@ -161,6 +161,12 @@ popup/item_5/text = "TILT_UP"
 popup/item_5/id = 5
 popup/item_6/text = "TILT_DOWN"
 popup/item_6/id = 6
+popup/item_7/text = "ROLL"
+popup/item_7/id = 7
+popup/item_8/text = "STIR"
+popup/item_8/id = 8
+popup/item_9/text = "POUR"
+popup/item_9/id = 9
 
 [node name="AnnotationSaver" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -198,6 +204,7 @@ text = "Viewing: Point 0 to 29 (145 data points in this CSV file)"
 script = ExtResource("7_m0imm")
 
 [node name="GraphGesture" type="Control" parent="CanvasLayer/ScrollContainer/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer2"]
+visible = false
 custom_minimum_size = Vector2(0, 280)
 layout_mode = 2
 script = ExtResource("17_cnd0k")

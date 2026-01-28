@@ -25,11 +25,11 @@ func _on_text_changed(new_text: String) -> void:
 
 func _on_labelling_next_button_pressed() -> void:
 	if text.is_valid_int():
-		text = str(int(text) + step)
+		text = str(min(int(text) + step, (owner.csv_row_count - 1)))
 		text_changed.emit(text)
 
 
 func _on_labelling_prev_button_pressed() -> void:
 	if text.is_valid_int():
-		text = str(int(text) - step)
+		text = str(max(int(text) - step, (Config.WINDOW_WIDTH - 1)))
 		text_changed.emit(text)
