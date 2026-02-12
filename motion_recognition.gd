@@ -76,17 +76,32 @@ func play_audio(i: int) -> void:
 	match i:
 		MOTION.HIT:
 			%AudioHit.play()
+			generate_input_event("motion_hit")
 		MOTION.SWING_LEFT:
 			%AudioSwingLeft.play()
+			generate_input_event("motion_swing_left")
 		MOTION.SWING_RIGHT:
 			%AudioSwingRight.play()
+			generate_input_event("motion_swing_right")
 		MOTION.SHAKE:
 			%AudioShake.play()
-			
+			generate_input_event("motion_shake")
+		
 		#MOTION.TILT_UP:
 			#%AudioTiltUp.play()
 		#MOTION.TILT_DOWN:
 			#%AudioTiltDown.play()
+
+
+func generate_input_event(event_name: String) -> void:
+	var input_event = InputEventAction.new()
+	input_event.action = event_name
+	input_event.pressed = true
+	Input.parse_input_event(input_event)
+	
+	await get_tree().create_timer(0.5).timeout
+	input_event.pressed = false
+	Input.parse_input_event(input_event)
 
 
 func _on_client_sensor_retrieved(_data_dict: Dictionary) -> void:

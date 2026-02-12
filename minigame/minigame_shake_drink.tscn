@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://4vlqfg61dqh8"]
+
+[ext_resource type="Script" uid="uid://1lismqj3fmsm" path="res://minigame/minigame_shake_drink.gd" id="1_3jx72"]
+[ext_resource type="Texture2D" uid="uid://dujbyfdrhhdif" path="res://images/shake_drink_back_hand.svg" id="2_ds4a1"]
+[ext_resource type="Texture2D" uid="uid://dnxlwyb51vyb3" path="res://images/shake_drink_shaker.svg" id="3_6dqa8"]
+[ext_resource type="Texture2D" uid="uid://bmewtnf1ft4gd" path="res://images/shake_drink_back_hand_front.svg" id="4_ri2qk"]
+[ext_resource type="Texture2D" uid="uid://c7uyuilphx1n" path="res://images/shake_drink_front_hand.svg" id="5_4ufbu"]
+
+[node name="MinigameShakeDrink" type="Node2D"]
+script = ExtResource("1_3jx72")
+
+[node name="ShakeDrinkBackHand" type="Sprite2D" parent="."]
+position = Vector2(494.5, 382.5)
+texture = ExtResource("2_ds4a1")
+
+[node name="ShakeDrinkShaker" type="Sprite2D" parent="."]
+position = Vector2(494.5, 382.5)
+texture = ExtResource("3_6dqa8")
+
+[node name="ShakeDrinkBackHandFront" type="Sprite2D" parent="."]
+position = Vector2(494.5, 382.5)
+texture = ExtResource("4_ri2qk")
+
+[node name="ShakeDrinkFrontHand" type="Sprite2D" parent="."]
+position = Vector2(494.5, 382.5)
+texture = ExtResource("5_4ufbu")
+
+[node name="Marker2D" type="Marker2D" parent="."]

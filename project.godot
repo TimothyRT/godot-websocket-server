@@ -12,7 +12,7 @@ config_version=5
 
 config/name="GodotWebsocketServer"
 config/version="0.1.4"
-run/main_scene="uid://wlic4fvv32tb"
+run/main_scene="uid://4vlqfg61dqh8"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -39,6 +39,18 @@ enabled=PackedStringArray("res://addons/graph_2d/plugin.cfg")
 [input]
 
 motion_hit={
+"deadzone": 0.2,
+"events": []
+}
+motion_swing_left={
+"deadzone": 0.2,
+"events": []
+}
+motion_swing_right={
+"deadzone": 0.2,
+"events": []
+}
+motion_shake={
 "deadzone": 0.2,
 "events": []
 }
