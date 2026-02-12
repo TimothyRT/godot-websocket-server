@@ -1,28 +1,179 @@
-[gd_scene load_steps=6 format=3 uid="uid://4vlqfg61dqh8"]
+[gd_scene load_steps=10 format=3 uid="uid://4vlqfg61dqh8"]
 
-[ext_resource type="Script" uid="uid://1lismqj3fmsm" path="res://minigame/minigame_shake_drink.gd" id="1_3jx72"]
+[ext_resource type="Script" uid="uid://cb51235a3okqn" path="res://minigame/minigame_shake_drink.gd" id="1_3jx72"]
+[ext_resource type="Script" uid="uid://1lismqj3fmsm" path="res://minigame/hand.gd" id="1_ds4a1"]
 [ext_resource type="Texture2D" uid="uid://dujbyfdrhhdif" path="res://images/shake_drink_back_hand.svg" id="2_ds4a1"]
 [ext_resource type="Texture2D" uid="uid://dnxlwyb51vyb3" path="res://images/shake_drink_shaker.svg" id="3_6dqa8"]
 [ext_resource type="Texture2D" uid="uid://bmewtnf1ft4gd" path="res://images/shake_drink_back_hand_front.svg" id="4_ri2qk"]
 [ext_resource type="Texture2D" uid="uid://c7uyuilphx1n" path="res://images/shake_drink_front_hand.svg" id="5_4ufbu"]
 
+[sub_resource type="Animation" id="Animation_6dqa8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hand/MarkerBase/MarkerFront:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hand/MarkerBase/MarkerBack:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Hand/MarkerBase/MarkerBack/MarkerBackFront:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-0.09056153]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Hand/MarkerBase/MarkerFront:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.9837545, 0.92415994)]
+}
+
+[sub_resource type="Animation" id="Animation_ds4a1"]
+resource_name = "shake"
+length = 0.5
+loop_mode = 1
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hand/MarkerBase/MarkerFront:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.25, 0.5),
+"transitions": PackedFloat32Array(-2.5, -2.5),
+"update": 0,
+"values": [-0.27499384, 0.046888143]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hand/MarkerBase/MarkerBack:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.25, 0.5),
+"transitions": PackedFloat32Array(-2.5, -2.5),
+"update": 0,
+"values": [-0.27503124, 0.12068997]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Hand/MarkerBase/MarkerBack/MarkerBackFront:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(-1.5, -1.5),
+"update": 0,
+"values": [-0.09056153, -0.13043186]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Hand/MarkerBase/MarkerFront:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.25, 0.5),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector2(1.0307431, 0.9752186), Vector2(0.9837545, 0.92415994)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6dqa8"]
+_data = {
+&"RESET": SubResource("Animation_6dqa8"),
+&"shake": SubResource("Animation_ds4a1")
+}
+
 [node name="MinigameShakeDrink" type="Node2D"]
 script = ExtResource("1_3jx72")
 
-[node name="ShakeDrinkBackHand" type="Sprite2D" parent="."]
-position = Vector2(494.5, 382.5)
+[node name="Hand" type="Node2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(511, 540)
+script = ExtResource("1_ds4a1")
+
+[node name="MarkerBase" type="Marker2D" parent="Hand"]
+position = Vector2(-52, -7)
+
+[node name="MarkerBack" type="Marker2D" parent="Hand/MarkerBase"]
+
+[node name="ShakeDrinkBackHand" type="Sprite2D" parent="Hand/MarkerBase/MarkerBack"]
+position = Vector2(10.5, -171.5)
 texture = ExtResource("2_ds4a1")
 
-[node name="ShakeDrinkShaker" type="Sprite2D" parent="."]
-position = Vector2(494.5, 382.5)
+[node name="MarkerBackFront" type="Marker2D" parent="Hand/MarkerBase/MarkerBack"]
+position = Vector2(36, -120)
+rotation = -0.09056153
+
+[node name="ShakeDrinkShaker" type="Sprite2D" parent="Hand/MarkerBase/MarkerBack/MarkerBackFront"]
+position = Vector2(-25.5, -51.5)
 texture = ExtResource("3_6dqa8")
 
-[node name="ShakeDrinkBackHandFront" type="Sprite2D" parent="."]
-position = Vector2(494.5, 382.5)
+[node name="ShakeDrinkBackHandFront" type="Sprite2D" parent="Hand/MarkerBase/MarkerBack/MarkerBackFront"]
+position = Vector2(-25.5, -51.5)
 texture = ExtResource("4_ri2qk")
 
-[node name="ShakeDrinkFrontHand" type="Sprite2D" parent="."]
-position = Vector2(494.5, 382.5)
+[node name="MarkerFront" type="Marker2D" parent="Hand/MarkerBase"]
+position = Vector2(113, 4)
+scale = Vector2(0.9837545, 0.92415994)
+
+[node name="ShakeDrinkFrontHand" type="Sprite2D" parent="Hand/MarkerBase/MarkerFront"]
+position = Vector2(-102.5, -175.5)
 texture = ExtResource("5_4ufbu")
 
-[node name="Marker2D" type="Marker2D" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hand"]
+unique_name_in_owner = true
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_6dqa8")
+}
+
+[node name="Timer" type="Timer" parent="Hand"]
+unique_name_in_owner = true
+wait_time = 0.1
+autostart = true
+
+[node name="DrinkTextureLabel" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 29.0
+offset_top = 31.0
+offset_right = 328.0
+offset_bottom = 98.0
+theme_override_font_sizes/font_size = 48
+text = "Shake count: 0"
+
+[connection signal="timeout" from="Hand/Timer" to="Hand" method="_on_timer_timeout"]

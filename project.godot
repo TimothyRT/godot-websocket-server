@@ -12,7 +12,7 @@ config_version=5
 
 config/name="GodotWebsocketServer"
 config/version="0.1.4"
-run/main_scene="uid://4vlqfg61dqh8"
+run/main_scene="uid://wlic4fvv32tb"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
