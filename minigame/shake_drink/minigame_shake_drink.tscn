@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://4vlqfg61dqh8"]
 
-[ext_resource type="Script" uid="uid://cb51235a3okqn" path="res://minigame/minigame_shake_drink.gd" id="1_3jx72"]
-[ext_resource type="Script" uid="uid://1lismqj3fmsm" path="res://minigame/hand.gd" id="1_ds4a1"]
+[ext_resource type="Script" uid="uid://cb51235a3okqn" path="res://minigame/shake_drink/minigame_shake_drink.gd" id="1_3jx72"]
+[ext_resource type="Script" uid="uid://1lismqj3fmsm" path="res://minigame/shake_drink/hand.gd" id="1_ds4a1"]
 [ext_resource type="Texture2D" uid="uid://dujbyfdrhhdif" path="res://images/shake_drink_back_hand.svg" id="2_ds4a1"]
 [ext_resource type="Texture2D" uid="uid://dnxlwyb51vyb3" path="res://images/shake_drink_shaker.svg" id="3_6dqa8"]
 [ext_resource type="Texture2D" uid="uid://bmewtnf1ft4gd" path="res://images/shake_drink_back_hand_front.svg" id="4_ri2qk"]
@@ -57,12 +57,48 @@ tracks/3/keys = {
 "update": 0,
 "values": [Vector2(0.9837545, 0.92415994)]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Hand/MarkerBase/MarkerBack/MarkerBackFront/MarkerShaker:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.9393703, 0.94890857)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Hand/MarkerBase/MarkerBack/MarkerBackFront/ShakeDrinkBackHandFront:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.8835903, 1.0409315)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Hand/MarkerBase/MarkerBack/MarkerBackFront/MarkerShaker:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-0.10363786]
+}
 
 [sub_resource type="Animation" id="Animation_ds4a1"]
 resource_name = "shake"
 length = 0.5
 loop_mode = 1
-step = 0.25
+step = 0.125
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -111,6 +147,42 @@ tracks/3/keys = {
 "update": 0,
 "values": [Vector2(1.0307431, 0.9752186), Vector2(0.9837545, 0.92415994)]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Hand/MarkerBase/MarkerBack/MarkerBackFront/MarkerShaker:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.375),
+"transitions": PackedFloat32Array(-1.5, -2, -2),
+"update": 0,
+"values": [Vector2(1.0188911, 1.0172766), Vector2(0.8807352, 1.0628582), Vector2(1.0777203, 0.986159)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Hand/MarkerBase/MarkerBack/MarkerBackFront/ShakeDrinkBackHandFront:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(-2.5, -2.5),
+"update": 0,
+"values": [Vector2(1, 0.9), Vector2(0.9, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Hand/MarkerBase/MarkerBack/MarkerBackFront/MarkerShaker:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [-0.011319801, -0.09041172]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6dqa8"]
 _data = {
@@ -139,12 +211,18 @@ texture = ExtResource("2_ds4a1")
 position = Vector2(36, -120)
 rotation = -0.09056153
 
-[node name="ShakeDrinkShaker" type="Sprite2D" parent="Hand/MarkerBase/MarkerBack/MarkerBackFront"]
-position = Vector2(-25.5, -51.5)
+[node name="MarkerShaker" type="Marker2D" parent="Hand/MarkerBase/MarkerBack/MarkerBackFront"]
+rotation = -0.10363786
+scale = Vector2(0.9393703, 0.94890857)
+
+[node name="ShakeDrinkShaker" type="Sprite2D" parent="Hand/MarkerBase/MarkerBack/MarkerBackFront/MarkerShaker"]
+position = Vector2(-25.50003, -51.5)
+scale = Vector2(1.0035751, 0.89224565)
 texture = ExtResource("3_6dqa8")
 
 [node name="ShakeDrinkBackHandFront" type="Sprite2D" parent="Hand/MarkerBase/MarkerBack/MarkerBackFront"]
 position = Vector2(-25.5, -51.5)
+scale = Vector2(0.8835903, 1.0409315)
 texture = ExtResource("4_ri2qk")
 
 [node name="MarkerFront" type="Marker2D" parent="Hand/MarkerBase"]
@@ -174,6 +252,6 @@ offset_top = 31.0
 offset_right = 328.0
 offset_bottom = 98.0
 theme_override_font_sizes/font_size = 48
-text = "Shake count: 0"
+text = "Beverage quality: 0.0"
 
 [connection signal="timeout" from="Hand/Timer" to="Hand" method="_on_timer_timeout"]

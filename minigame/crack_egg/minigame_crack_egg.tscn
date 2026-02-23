@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cguk0ok8jym74"]
+
+[ext_resource type="PackedScene" uid="uid://bf1sagm7mwm4c" path="res://minigame/gameplay_frame.tscn" id="1_xwd4q"]
+
+[node name="MinigameCrackEgg" type="Node2D"]
+
+[node name="GameplayFrame" parent="." instance=ExtResource("1_xwd4q")]
