@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://wlic4fvv32tb"]
+[gd_scene load_steps=18 format=3 uid="uid://wlic4fvv32tb"]
 
 [ext_resource type="Script" uid="uid://d2lqbha40iqxk" path="res://plotter/plot_display.gd" id="1_fivpf"]
 [ext_resource type="Script" uid="uid://cqa5cwuethg6w" path="res://addons/graph_2d/graph_2d.gd" id="2_tq3og"]
@@ -12,7 +12,9 @@
 [ext_resource type="Script" uid="uid://cqo8i7ddwol88" path="res://plotter/prediction_label.gd" id="5_i48ge"]
 [ext_resource type="Script" uid="uid://bojisw7t8bts4" path="res://plotter/stop_recording_button.gd" id="5_q0lfw"]
 [ext_resource type="StyleBox" uid="uid://clgmygg8pn6ht" path="res://plotter/button_light_gray.tres" id="6_h8m52"]
+[ext_resource type="Script" uid="uid://ben2ew4oti4a4" path="res://plotter/temp_label.gd" id="6_h81t4"]
 [ext_resource type="Script" uid="uid://cc00o0aqnfhbk" path="res://plotter/recording_label.gd" id="6_lrww4"]
+[ext_resource type="Script" uid="uid://o6mp612jd1fc" path="res://plotter/peak_listener.gd" id="7_w06uh"]
 [ext_resource type="StyleBox" uid="uid://ddjxjgck7fx5p" path="res://plotter/button_dark_red.tres" id="9_ki3cc"]
 [ext_resource type="Script" uid="uid://dnqqqmcn1c3uk" path="res://plotter/ip_label.gd" id="12_426jy"]
 
@@ -48,6 +50,7 @@ script = ExtResource("12_426jy")
 
 [node name="ModeLabel" type="Label" parent="TextLayer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 text = ":( Inference mode is inactive."
 
@@ -56,6 +59,14 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Predicted class: N/A"
 script = ExtResource("5_i48ge")
+
+[node name="TempLabel" type="Label" parent="TextLayer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Peak count: N/A"
+script = ExtResource("6_h81t4")
+
+[node name="PeakListener" type="Node" parent="TextLayer/MarginContainer/VBoxContainer"]
+script = ExtResource("7_w06uh")
 
 [node name="PlotLayer" type="CanvasLayer" parent="."]
 unique_name_in_owner = true

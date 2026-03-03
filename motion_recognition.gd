@@ -1,6 +1,14 @@
 extends Node
 
 
+enum MOTION {
+	HIT,
+	IDLE,
+	SHAKE,
+	SWING_LEFT,
+	SWING_RIGHT
+}
+
 var leaky_bucket := {
 	"gyro_x": [],
 	"gyro_y": [],
@@ -8,15 +16,6 @@ var leaky_bucket := {
 	"acc_x": [],
 	"acc_y": [],
 	"acc_z": []
-}
-
-
-enum MOTION {
-	HIT,
-	IDLE,
-	SHAKE,
-	SWING_LEFT,
-	SWING_RIGHT
 }
 
 var just_performed_big_action := false
