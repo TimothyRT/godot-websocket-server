@@ -66,7 +66,7 @@ func _on_client_sensor_stored(_sample_count: int) -> void:
 			play_input_event(predicted_motion)
 			just_performed_big_action = true
 			%Timer.start()
-			
+		
 		if last_predicted_motion == null or predicted_motion != last_predicted_motion:
 			last_predicted_motion = predicted_motion
 

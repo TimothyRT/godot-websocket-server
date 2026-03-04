@@ -37,4 +37,4 @@ func _on_classification_made(predicted_class: int) -> void:
 
 func redraw_text() -> void:
 	var values: Array[int] = [peak_count, counter["hit"], counter["swing_left"], counter["swing_right"], counter["shake"]]
-	text = "Peaks detected: %d; hits: %d; swing_lefts: %d; swing_rights: %d; shakes: %d: " % values
+	text = "Peaks detected: %d; hits: %d; swing_lefts: %d; swing_rights: %d; shakes: %d" % values
