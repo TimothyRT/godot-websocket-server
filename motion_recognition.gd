@@ -1,6 +1,8 @@
 extends Node
 
 
+const MIN_PEAK_THRESHOLD := 20.0
+
 enum MOTION {
 	HIT,
 	IDLE,
@@ -9,69 +11,67 @@ enum MOTION {
 	SWING_RIGHT
 }
 
-var leaky_bucket := {
-	"gyro_x": [],
-	"gyro_y": [],
-	"gyro_z": [],
-	"acc_x": [],
-	"acc_y": [],
-	"acc_z": []
-}
-
 var just_performed_big_action := false
 
-var predicted_motion: int
-var predicted_motion_count := 0
-var predicted_motion_threshold := 2
+var last_predicted_motion: int
 
 
 func _ready() -> void:
-	SignalBus.client_sensor_retrieved.connect(_on_client_sensor_retrieved)
+	SignalBus.client_sensor_stored.connect(_on_client_sensor_stored)
 
 
-func _physics_process(_delta: float) -> void:
-	if len(leaky_bucket["gyro_x"]) < Config.WINDOW_WIDTH:
+func _on_client_sensor_stored(_sample_count: int) -> void:
+	var buffer_size := len(SensorDataStore.data_dict["gesture"])
+	if buffer_size < Config.WINDOW_WIDTH:
 		return
-		
-	var input_arr = []
-	for i in range(0, 30, 3):
-		input_arr += leaky_bucket["gyro_x"].slice(i, i + 3)
-		input_arr += leaky_bucket["gyro_y"].slice(i, i + 3)
-		input_arr += leaky_bucket["gyro_z"].slice(i, i + 3)
-		input_arr += leaky_bucket["acc_x"].slice(i, i + 3)
-		input_arr += leaky_bucket["acc_y"].slice(i, i + 3)
-		input_arr += leaky_bucket["acc_z"].slice(i, i + 3)
-	var res: int = Svc.classify(input_arr)
 	
-	if res != -1:
+	var offset_current: int = buffer_size - ceili(Config.WINDOW_WIDTH / 2.0)
+	var offset_previous := offset_current - 1
+	var offset_next := offset_current + 1
+	
+	# ignore un-peak-like points
+	if SensorDataStore.data_dict["acc_y"][offset_current] < SensorDataStore.data_dict["acc_y"][offset_previous]:
+		return
+	if SensorDataStore.data_dict["acc_y"][offset_current] < SensorDataStore.data_dict["acc_y"][offset_next]:
+		return
+	
+	# ignore lower peaks
+	if SensorDataStore.data_dict["acc_y"][offset_current] < MIN_PEAK_THRESHOLD:
+		return
+	
+	SignalBus.peak_detected.emit()
+	
+	var input_arr := []
+	for i in range(buffer_size - Config.WINDOW_WIDTH, buffer_size, 3):
+		input_arr += SensorDataStore.data_dict["gyro_x"].slice(i, i + 3)
+		input_arr += SensorDataStore.data_dict["gyro_y"].slice(i, i + 3)
+		input_arr += SensorDataStore.data_dict["gyro_z"].slice(i, i + 3)
+		input_arr += SensorDataStore.data_dict["acc_x"].slice(i, i + 3)
+		input_arr += SensorDataStore.data_dict["acc_y"].slice(i, i + 3)
+		input_arr += SensorDataStore.data_dict["acc_z"].slice(i, i + 3)
+	var predicted_motion: int = Svc.classify(input_arr)
+	
+	if predicted_motion != -1:
 		if just_performed_big_action:
-			pass
-		elif predicted_motion == null or res != predicted_motion:
-			predicted_motion = res
-			predicted_motion_count = 1
-		else:
-			predicted_motion_count += 1
-			
-			if predicted_motion_count >= predicted_motion_threshold:
-				predicted_motion_count = 0
-				SignalBus.classification_made.emit(res)
-				if res != 1:
-					play_audio(res)
-					just_performed_big_action = true
-					%Timer.start()
+			return
 		
-		#if not just_performed_big_action and res != MOTION.IDLE:
-			#SignalBus.classification_made.emit(res)
-			#just_performed_big_action = true
-			#%Timer.start()
-		#elif not just_performed_big_action and res == MOTION.IDLE:
-			#SignalBus.classification_made.emit(res)
-	
-	for key in leaky_bucket:
-		leaky_bucket[key].pop_front()
+		# ---- REMOVE LATER ----
+		# SensorDataStore.data_dict["mag_y"][offset_previous] = 31.0
+		# SensorDataStore.data_dict["mag_y"][offset_current] = 30.0
+		# SensorDataStore.data_dict["mag_y"][offset_next] = 29.0
+		# ---- REMOVE LATER ----
+		
+		SignalBus.classification_made.emit(predicted_motion)
+		if predicted_motion != MOTION.IDLE:
+			play_input_event(predicted_motion)
+			just_performed_big_action = true
+			%Timer.start()
+			
+		if last_predicted_motion == null or predicted_motion != last_predicted_motion:
+			last_predicted_motion = predicted_motion
 
 
-func play_audio(i: int) -> void:
+func play_input_event(i: int) -> void:
 	match i:
 		MOTION.HIT:
 			%AudioHit.play()
@@ -101,37 +101,6 @@ func generate_input_event(event_name: String, delay: float) -> void:
 	await get_tree().create_timer(delay).timeout
 	input_event.pressed = false
 	Input.parse_input_event(input_event)
-
-
-func _on_client_sensor_retrieved(_data_dict: Dictionary) -> void:
-	for key in leaky_bucket:
-		leaky_bucket[key].append_array(_data_dict[key])
-
-
-#func recognize_motion(motion: Motion, gyroscope: Vector3, accelerometer: Vector3) -> bool:
-	#match motion:
-		#Motion.HIT:
-			#if accelerometer.y < -17:
-				#var cancel_event = InputEventAction.new()
-				#cancel_event.action = "motion_hit"
-				#cancel_event.pressed = true
-				#Input.parse_input_event(cancel_event)
-				#
-				#await get_tree().create_timer(0.5).timeout
-				#cancel_event.pressed = false
-				#Input.parse_input_event(cancel_event)
-				#return true
-			#else:
-				#return false
-		#
-		#_:
-			#return false
-
-
-#func _on_client_sensor_stored(player_number: int) -> void:
-	#var gyroscope: Vector3 = SensorDataStore.retrieve_last(player_number, "gyroscope")
-	#var accelerometer: Vector3 = SensorDataStore.retrieve_last(player_number, "accelerometer")
-	#recognize_motion(Motion.HIT, gyroscope, accelerometer)
 
 
 func _on_timer_timeout() -> void:

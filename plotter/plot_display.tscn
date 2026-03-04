@@ -62,7 +62,7 @@ script = ExtResource("5_i48ge")
 
 [node name="TempLabel" type="Label" parent="TextLayer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Peak count: N/A"
+text = "Peaks detected: N/A"
 script = ExtResource("6_h81t4")
 
 [node name="PeakListener" type="Node" parent="TextLayer/MarginContainer/VBoxContainer"]

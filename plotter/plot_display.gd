@@ -99,22 +99,20 @@ func _on_client_sensor_stored(_sample_count: int) -> void:
 
 
 func _on_client_sensor_retrieved(data_dict: Dictionary) -> void:
-	var batch_size := 10
-	for i in range(batch_size):
-		%FileWriter.write(
-			str(data_dict["gyro_x"][i]),
-			str(data_dict["gyro_y"][i]),
-			str(data_dict["gyro_z"][i]),
-			str(data_dict["acc_x"][i]),
-			str(data_dict["acc_y"][i]),
-			str(data_dict["acc_z"][i]),
-			str(data_dict["mag_x"][i]),
-			str(data_dict["mag_y"][i]),
-			str(data_dict["mag_z"][i]),
-			str(data_dict["ahrs_x"][i]),
-			str(data_dict["ahrs_y"][i]),
-			str(data_dict["ahrs_z"][i]),
-			str(data_dict["ahrs_w"][i]),
-			str(data_dict["datetime"][i]),
-			str(data_dict["gesture"][i]),
-		)
+	%FileWriter.write(
+		str(data_dict["gyro_x"]),
+		str(data_dict["gyro_y"]),
+		str(data_dict["gyro_z"]),
+		str(data_dict["acc_x"]),
+		str(data_dict["acc_y"]),
+		str(data_dict["acc_z"]),
+		str(data_dict["mag_x"]),
+		str(data_dict["mag_y"]),
+		str(data_dict["mag_z"]),
+		str(data_dict["ahrs_x"]),
+		str(data_dict["ahrs_y"]),
+		str(data_dict["ahrs_z"]),
+		str(data_dict["ahrs_w"]),
+		str(data_dict["datetime"]),
+		str(data_dict["gesture"]),
+	)

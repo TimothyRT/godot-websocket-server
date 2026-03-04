@@ -32,12 +32,12 @@ func _ready() -> void:
 
 func _on_client_sensor_retrieved(_data_dict: Dictionary) -> void:
 	for key in _data_dict:
-		data_dict[key].append_array(_data_dict[key])
+		data_dict[key].append(_data_dict[key])
 	
 	if len(data_dict["gesture"]) > buffer_max_size:
-		var excess = len(data_dict["gesture"]) -  buffer_max_size
-
+		var excess = len(data_dict["gesture"]) - buffer_max_size
+	
 		for k in data_dict:
 			data_dict[k] = data_dict[k].slice(excess)
 	
-	SignalBus.client_sensor_stored.emit(10)
+	SignalBus.client_sensor_stored.emit(1)

@@ -53,4 +53,4 @@ func _process(_delta):
 func _parse_message(msg: String):
 	var parsed = JSON.parse_string(msg)
 	if parsed != null:
-		SignalBus.client_sensor_retrieved.emit(parsed)
+		SignalBus.client_sensor_batch_received.emit(parsed)

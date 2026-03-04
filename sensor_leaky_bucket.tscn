@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://jn14sk7ptu2t"]
+
+[ext_resource type="Script" uid="uid://cupuom2r4yk4d" path="res://sensor_leaky_bucket.gd" id="1_u8h2c"]
+
+[node name="SensorLeakyBucket" type="Node"]
+script = ExtResource("1_u8h2c")

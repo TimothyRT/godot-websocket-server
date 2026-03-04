@@ -27,6 +27,7 @@ MotionRecognition="*res://motion_recognition.tscn"
 IpAddress="*res://utils/IPAddress.tscn"
 SensorStats="*res://utils/SensorStats.tscn"
 Svc="*res://svc.tscn"
+SensorLeakyBucket="*res://sensor_leaky_bucket.tscn"
 
 [display]
 
@@ -56,6 +57,10 @@ motion_shake={
 "deadzone": 0.2,
 "events": []
 }
+
+[physics]
+
+common/physics_ticks_per_second=70
 
 [rendering]
 

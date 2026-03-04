@@ -27,7 +27,8 @@ var sum_buffer_size = {
 
 
 func _ready() -> void:
-	SignalBus.client_sensor_stored.connect(_on_client_sensor_stored)
+	pass
+	#SignalBus.client_sensor_stored.connect(_on_client_sensor_stored)
 
 
 func _on_client_sensor_stored(sample_count: int) -> void:	
