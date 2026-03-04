@@ -25,14 +25,14 @@ func _on_client_sensor_stored(_sample_count: int) -> void:
 	if buffer_size < Config.WINDOW_WIDTH:
 		return
 	
+	var offset_begin := buffer_size - Config.WINDOW_WIDTH
 	var offset_current: int = buffer_size - ceili(Config.WINDOW_WIDTH / 2.0)
 	var offset_previous := offset_current - 1
 	var offset_next := offset_current + 1
+	var offset_end := buffer_size
 	
 	# ignore un-peak-like points
-	if SensorDataStore.data_dict["acc_y"][offset_current] < SensorDataStore.data_dict["acc_y"][offset_previous]:
-		return
-	if SensorDataStore.data_dict["acc_y"][offset_current] < SensorDataStore.data_dict["acc_y"][offset_next]:
+	if not _is_peak(SensorDataStore.data_dict["acc_y"].slice(offset_begin, offset_end)):
 		return
 	
 	# ignore lower peaks
@@ -56,9 +56,9 @@ func _on_client_sensor_stored(_sample_count: int) -> void:
 			return
 		
 		# ---- REMOVE LATER ----
-		# SensorDataStore.data_dict["mag_y"][offset_previous] = 31.0
-		# SensorDataStore.data_dict["mag_y"][offset_current] = 30.0
-		# SensorDataStore.data_dict["mag_y"][offset_next] = 29.0
+		SensorDataStore.data_dict["mag_y"][offset_previous] = 31.0
+		SensorDataStore.data_dict["mag_y"][offset_current] = 30.0
+		SensorDataStore.data_dict["mag_y"][offset_next] = 29.0
 		# ---- REMOVE LATER ----
 		
 		SignalBus.classification_made.emit(predicted_motion)
@@ -105,3 +105,13 @@ func generate_input_event(event_name: String, delay: float) -> void:
 
 func _on_timer_timeout() -> void:
 	just_performed_big_action = false
+
+
+func _is_peak(arr: Array[Variant]) -> bool:
+	var offset_midpoint: int = ceili(len(arr) / 2.0)
+	var val_midpoint = arr[offset_midpoint]
+	
+	for val in arr:
+		if val > val_midpoint:
+			return false
+	return true
