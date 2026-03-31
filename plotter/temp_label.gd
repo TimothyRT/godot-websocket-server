@@ -20,7 +20,7 @@ func _on_peak_detected() -> void:
 	redraw_text()
 
 
-func _on_classification_made(predicted_class: int) -> void:
+func _on_classification_made(_input_arr: Array, predicted_class: int) -> void:
 	match predicted_class:
 		MotionRecognition.MOTION.HIT:
 			counter["hit"] += 1

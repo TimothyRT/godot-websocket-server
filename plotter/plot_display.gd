@@ -32,7 +32,7 @@ var plot = {
 func _ready():
 	_setup_plot()
 	SignalBus.client_sensor_stored.connect(_on_client_sensor_stored)
-	SignalBus.client_sensor_retrieved.connect(_on_client_sensor_retrieved)
+	#SignalBus.client_sensor_retrieved.connect(_on_client_sensor_retrieved)
 
 
 #func _input(event: InputEvent) -> void:
@@ -98,21 +98,21 @@ func _on_client_sensor_stored(_sample_count: int) -> void:
 		plot["gesture"].add_point(Vector2(i, SensorDataStore.data_dict["gesture"][i]))
 
 
-func _on_client_sensor_retrieved(data_dict: Dictionary) -> void:
-	%FileWriter.write(
-		str(data_dict["gyro_x"]),
-		str(data_dict["gyro_y"]),
-		str(data_dict["gyro_z"]),
-		str(data_dict["acc_x"]),
-		str(data_dict["acc_y"]),
-		str(data_dict["acc_z"]),
-		str(data_dict["mag_x"]),
-		str(data_dict["mag_y"]),
-		str(data_dict["mag_z"]),
-		str(data_dict["ahrs_x"]),
-		str(data_dict["ahrs_y"]),
-		str(data_dict["ahrs_z"]),
-		str(data_dict["ahrs_w"]),
-		str(data_dict["datetime"]),
-		str(data_dict["gesture"]),
-	)
+#func _on_client_sensor_retrieved(data_dict: Dictionary) -> void:
+	#%FileWriter.write(
+		#str(data_dict["gyro_x"]),
+		#str(data_dict["gyro_y"]),
+		#str(data_dict["gyro_z"]),
+		#str(data_dict["acc_x"]),
+		#str(data_dict["acc_y"]),
+		#str(data_dict["acc_z"]),
+		#str(data_dict["mag_x"]),
+		#str(data_dict["mag_y"]),
+		#str(data_dict["mag_z"]),
+		#str(data_dict["ahrs_x"]),
+		#str(data_dict["ahrs_y"]),
+		#str(data_dict["ahrs_z"]),
+		#str(data_dict["ahrs_w"]),
+		#str(data_dict["datetime"]),
+		#str(data_dict["gesture"]),
+	#)

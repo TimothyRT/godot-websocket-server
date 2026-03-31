@@ -10,7 +10,7 @@ var connected_peers := []
 func _ready() -> void:
 	var err = ws_server.create_server(PORT)
 	if err != OK:
-		push_warning("[SOCKET] Failed to start WebSocket server: %s" % err)
+		print("[SOCKET] Failed to start WebSocket server: %s" % err)
 		return
 	
 	# Hook into peer connect/disconnect

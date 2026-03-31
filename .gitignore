@@ -1,6 +1,8 @@
 ~*.dll
 *.translation
 
+minigame/
+
 # Godot 4+ specific ignores
 .godot/
 /android/

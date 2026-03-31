@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://wlic4fvv32tb"]
+[gd_scene load_steps=19 format=3 uid="uid://wlic4fvv32tb"]
 
 [ext_resource type="Script" uid="uid://d2lqbha40iqxk" path="res://plotter/plot_display.gd" id="1_fivpf"]
 [ext_resource type="Script" uid="uid://cqa5cwuethg6w" path="res://addons/graph_2d/graph_2d.gd" id="2_tq3og"]
@@ -17,6 +17,7 @@
 [ext_resource type="Script" uid="uid://o6mp612jd1fc" path="res://plotter/peak_listener.gd" id="7_w06uh"]
 [ext_resource type="StyleBox" uid="uid://ddjxjgck7fx5p" path="res://plotter/button_dark_red.tres" id="9_ki3cc"]
 [ext_resource type="Script" uid="uid://dnqqqmcn1c3uk" path="res://plotter/ip_label.gd" id="12_426jy"]
+[ext_resource type="Script" uid="uid://clvo4ay64y5mq" path="res://plotter/motion_option.gd" id="17_ie6d5"]
 
 [node name="PlotDisplay" type="Node2D"]
 script = ExtResource("1_fivpf")
@@ -192,18 +193,28 @@ offset_top = -8.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 40
 theme_override_constants/margin_right = 100
 theme_override_constants/margin_bottom = 40
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ButtonLayer/MarginContainer"]
+[node name="WhiteRect" type="ColorRect" parent="ButtonLayer/MarginContainer"]
+layout_mode = 2
+color = Color(1, 1, 1, 0.3764706)
+
+[node name="MarginContainer" type="MarginContainer" parent="ButtonLayer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ButtonLayer/MarginContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ButtonLayer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ButtonLayer/MarginContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 100
 alignment = 1
 
-[node name="StartRecordingButton" type="Button" parent="ButtonLayer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="StartRecordingButton" type="Button" parent="ButtonLayer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/normal = ExtResource("4_lhfwa")
@@ -214,7 +225,7 @@ theme_override_styles/focus = ExtResource("4_bm8qj")
 text = "Start Recording"
 script = ExtResource("4_hg8r6")
 
-[node name="StopRecordingButton" type="Button" parent="ButtonLayer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="StopRecordingButton" type="Button" parent="ButtonLayer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/normal = ExtResource("4_bm8qj")
@@ -225,28 +236,33 @@ theme_override_styles/focus = ExtResource("4_lhfwa")
 text = "Stop Recording"
 script = ExtResource("5_q0lfw")
 
-[node name="RecordingLabel" type="Label" parent="ButtonLayer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="RecordingLabel" type="Label" parent="ButtonLayer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "Recording..."
 script = ExtResource("6_lrww4")
 
-[node name="Timer" type="Timer" parent="ButtonLayer/MarginContainer/VBoxContainer/HBoxContainer/RecordingLabel"]
+[node name="Timer" type="Timer" parent="ButtonLayer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/RecordingLabel"]
 wait_time = 0.2
+
+[node name="MotionOption" type="OptionButton" parent="ButtonLayer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("17_ie6d5")
 
 [node name="AudioBanana" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("3_678rl")
 
 [connection signal="recording_started" from="RecordingController" to="FileWriter" method="_on_recording_started"]
-[connection signal="recording_started" from="RecordingController" to="ButtonLayer/MarginContainer/VBoxContainer/HBoxContainer/StartRecordingButton" method="_on_recording_started"]
-[connection signal="recording_started" from="RecordingController" to="ButtonLayer/MarginContainer/VBoxContainer/HBoxContainer/StopRecordingButton" method="_on_recording_started"]
-[connection signal="recording_started" from="RecordingController" to="ButtonLayer/MarginContainer/VBoxContainer/HBoxContainer/RecordingLabel" method="_on_recording_started"]
+[connection signal="recording_started" from="RecordingController" to="ButtonLayer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/StartRecordingButton" method="_on_recording_started"]
+[connection signal="recording_started" from="RecordingController" to="ButtonLayer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/StopRecordingButton" method="_on_recording_started"]
+[connection signal="recording_started" from="RecordingController" to="ButtonLayer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/RecordingLabel" method="_on_recording_started"]
 [connection signal="recording_stopped" from="RecordingController" to="FileWriter" method="_on_recording_stopped"]
-[connection signal="recording_stopped" from="RecordingController" to="ButtonLayer/MarginContainer/VBoxContainer/HBoxContainer/StartRecordingButton" method="_on_recording_stopped"]
-[connection signal="recording_stopped" from="RecordingController" to="ButtonLayer/MarginContainer/VBoxContainer/HBoxContainer/StopRecordingButton" method="_on_recording_stopped"]
-[connection signal="recording_stopped" from="RecordingController" to="ButtonLayer/MarginContainer/VBoxContainer/HBoxContainer/RecordingLabel" method="_on_recording_stopped"]
-[connection signal="button_down" from="ButtonLayer/MarginContainer/VBoxContainer/HBoxContainer/StartRecordingButton" to="RecordingController" method="_on_start_recording_button_down"]
-[connection signal="button_down" from="ButtonLayer/MarginContainer/VBoxContainer/HBoxContainer/StopRecordingButton" to="RecordingController" method="_on_stop_recording_button_down"]
-[connection signal="timeout" from="ButtonLayer/MarginContainer/VBoxContainer/HBoxContainer/RecordingLabel/Timer" to="ButtonLayer/MarginContainer/VBoxContainer/HBoxContainer/RecordingLabel" method="_on_timer_timeout"]
+[connection signal="recording_stopped" from="RecordingController" to="ButtonLayer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/StartRecordingButton" method="_on_recording_stopped"]
+[connection signal="recording_stopped" from="RecordingController" to="ButtonLayer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/StopRecordingButton" method="_on_recording_stopped"]
+[connection signal="recording_stopped" from="RecordingController" to="ButtonLayer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/RecordingLabel" method="_on_recording_stopped"]
+[connection signal="button_down" from="ButtonLayer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/StartRecordingButton" to="RecordingController" method="_on_start_recording_button_down"]
+[connection signal="button_down" from="ButtonLayer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/StopRecordingButton" to="RecordingController" method="_on_stop_recording_button_down"]
+[connection signal="timeout" from="ButtonLayer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/RecordingLabel/Timer" to="ButtonLayer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/RecordingLabel" method="_on_timer_timeout"]

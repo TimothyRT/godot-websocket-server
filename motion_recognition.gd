@@ -8,7 +8,12 @@ enum MOTION {
 	IDLE,
 	SHAKE,
 	SWING_LEFT,
-	SWING_RIGHT
+	SWING_RIGHT,
+	TILT_UP,
+	TILT_DOWN,
+	ROLL,
+	STIR,
+	POUR
 }
 
 var just_performed_big_action := false
@@ -31,17 +36,21 @@ func _on_client_sensor_stored(_sample_count: int) -> void:
 	var offset_next := offset_current + 1
 	var offset_end := buffer_size
 	
-	# ignore un-peak-like points
-	if not _is_peak(SensorDataStore.data_dict["acc_y"].slice(offset_begin, offset_end)):
+	# ignore small peaks
+	if -MIN_PEAK_THRESHOLD < SensorDataStore.data_dict["acc_y"][offset_current] and SensorDataStore.data_dict["acc_y"][offset_current] < MIN_PEAK_THRESHOLD:
 		return
 	
-	# ignore lower peaks
-	if SensorDataStore.data_dict["acc_y"][offset_current] < MIN_PEAK_THRESHOLD:
+	var is_negative_peak := false 
+	if SensorDataStore.data_dict["acc_y"][offset_current] <= -MIN_PEAK_THRESHOLD:
+		is_negative_peak = true
+	
+	# ignore un-peak-like points
+	if not _is_peak(SensorDataStore.data_dict["acc_y"].slice(offset_begin, offset_end), is_negative_peak):
 		return
 	
 	SignalBus.peak_detected.emit()
 	
-	var input_arr := []
+	var input_arr := []  # should be of length 6 * WINDOW_WIDTH normally
 	for i in range(buffer_size - Config.WINDOW_WIDTH, buffer_size, 3):
 		input_arr += SensorDataStore.data_dict["gyro_x"].slice(i, i + 3)
 		input_arr += SensorDataStore.data_dict["gyro_y"].slice(i, i + 3)
@@ -61,9 +70,10 @@ func _on_client_sensor_stored(_sample_count: int) -> void:
 		SensorDataStore.data_dict["mag_y"][offset_next] = 29.0
 		# ---- REMOVE LATER ----
 		
-		SignalBus.classification_made.emit(predicted_motion)
 		if predicted_motion != MOTION.IDLE:
 			play_input_event(predicted_motion)
+			#print("Length of input_arr: %d" % [len(input_arr)])
+			SignalBus.classification_made.emit(input_arr, predicted_motion)
 			just_performed_big_action = true
 			%Timer.start()
 		
@@ -107,11 +117,15 @@ func _on_timer_timeout() -> void:
 	just_performed_big_action = false
 
 
-func _is_peak(arr: Array[Variant]) -> bool:
+func _is_peak(arr: Array[Variant], negativity: bool) -> bool:
 	var offset_midpoint: int = ceili(len(arr) / 2.0)
 	var val_midpoint = arr[offset_midpoint]
 	
 	for val in arr:
-		if val > val_midpoint:
-			return false
+		if negativity:
+			if val < val_midpoint:
+				return false
+		else:
+			if val > val_midpoint:
+				return false
 	return true
