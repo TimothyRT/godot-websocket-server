@@ -14,10 +14,10 @@ func _on_recording_started() -> void:
 	var header_arr = PackedStringArray()
 	for i in range(Config.WINDOW_WIDTH):
 		for col in Config.csv_col_names_for_recognition:
-			if col == "gesture":
+			if col == "motion_type":
 				continue
 			header_arr.append(col + "_" + str(i))
-	header_arr.append("gesture")
+	header_arr.append("motion_type")
 	file.store_csv_line(header_arr)
 
 

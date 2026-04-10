@@ -3,15 +3,10 @@ extends OptionButton
 
 var gestures := [
 	"HIT",
-	"IDLE",
 	"SHAKE",
 	"SWING_LEFT",
 	"SWING_RIGHT",
-	"TILT_UP",
-	"TILT_DOWN",
-	"ROLL",
-	"STIR",
-	"POUR"]
+	"FAN"]
 
 
 func _ready() -> void:

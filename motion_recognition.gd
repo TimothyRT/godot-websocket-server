@@ -5,18 +5,13 @@ const MIN_PEAK_THRESHOLD := 20.0
 
 enum MOTION {
 	HIT,
-	IDLE,
 	SHAKE,
 	SWING_LEFT,
 	SWING_RIGHT,
-	TILT_UP,
-	TILT_DOWN,
-	ROLL,
-	STIR,
-	POUR
+	FAN
 }
 
-var just_performed_big_action := false
+var time_steps_to_ignore := 0
 
 var last_predicted_motion: int
 
@@ -26,6 +21,10 @@ func _ready() -> void:
 
 
 func _on_client_sensor_stored(_sample_count: int) -> void:
+	if time_steps_to_ignore > 0:
+		time_steps_to_ignore -= 1
+		return
+	
 	var buffer_size := len(SensorDataStore.data_dict["gesture"])
 	if buffer_size < Config.WINDOW_WIDTH:
 		return
@@ -61,21 +60,19 @@ func _on_client_sensor_stored(_sample_count: int) -> void:
 	var predicted_motion: int = Svc.classify(input_arr)
 	
 	if predicted_motion != -1:
-		if just_performed_big_action:
-			return
-		
 		# ---- REMOVE LATER ----
 		SensorDataStore.data_dict["mag_y"][offset_previous] = 31.0
 		SensorDataStore.data_dict["mag_y"][offset_current] = 30.0
 		SensorDataStore.data_dict["mag_y"][offset_next] = 29.0
 		# ---- REMOVE LATER ----
 		
-		if predicted_motion != MOTION.IDLE:
-			play_input_event(predicted_motion)
-			#print("Length of input_arr: %d" % [len(input_arr)])
-			SignalBus.classification_made.emit(input_arr, predicted_motion)
-			just_performed_big_action = true
-			%Timer.start()
+		play_input_event(predicted_motion)
+		SignalBus.classification_made.emit(input_arr, predicted_motion)
+		
+		if predicted_motion == MOTION.SHAKE:
+			time_steps_to_ignore = 10
+		else:
+			time_steps_to_ignore = 12
 		
 		if last_predicted_motion == null or predicted_motion != last_predicted_motion:
 			last_predicted_motion = predicted_motion
@@ -95,15 +92,20 @@ func play_input_event(i: int) -> void:
 		MOTION.SHAKE:
 			%AudioShake.play()
 			generate_input_event("motion_shake", 0.5)
-		
-		#MOTION.TILT_UP:
-			#%AudioTiltUp.play()
+		MOTION.FAN:
+			%AudioTiltUp.play()
+			generate_input_event("motion_fan", 0.5)
 		#MOTION.TILT_DOWN:
 			#%AudioTiltDown.play()
 
 
-func generate_input_event(event_name: String, delay: float) -> void:
+func generate_input_event(event_name: String, delay: float, player_index=0) -> void:
 	var input_event = InputEventAction.new()
+	if player_index == 0 or player_index == 1:
+		input_event.strength = player_index
+	else:
+		print("player_index must either be 0 (for player #1) or 1 (for player #2).")
+		return
 	input_event.action = event_name
 	input_event.pressed = true
 	Input.parse_input_event(input_event)
@@ -113,8 +115,8 @@ func generate_input_event(event_name: String, delay: float) -> void:
 	Input.parse_input_event(input_event)
 
 
-func _on_timer_timeout() -> void:
-	just_performed_big_action = false
+#func _on_timer_timeout() -> void:
+	#just_performed_big_action = false
 
 
 func _is_peak(arr: Array[Variant], negativity: bool) -> bool:

@@ -3,7 +3,7 @@ class_name SVC
 
 
 func _ready() -> void:
-	load_model("onnx/v2/clf_rf.onnx")
+	load_model("onnx/v3/clf_rf.onnx")
 
 
 func classify(input_arr: Array) -> int:
