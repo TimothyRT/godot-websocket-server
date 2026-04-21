@@ -8,7 +8,11 @@ enum MOTION {
 	SHAKE,
 	SWING_LEFT,
 	SWING_RIGHT,
-	FAN
+	FAN,
+	IDLE,
+	STIR,
+	LIFT,
+	SPIN,
 }
 
 var time_steps_to_ignore := 0
@@ -95,6 +99,10 @@ func play_input_event(i: int) -> void:
 		MOTION.FAN:
 			%AudioTiltUp.play()
 			generate_input_event("motion_fan", 0.5)
+		MOTION.IDLE:
+			generate_input_event("motion_idle", 0.5)
+		MOTION.IDLE:
+			generate_input_event("motion_idle", 0.5)
 		#MOTION.TILT_DOWN:
 			#%AudioTiltDown.play()
 

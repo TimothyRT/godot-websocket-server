@@ -6,7 +6,12 @@ var gestures := [
 	"SHAKE",
 	"SWING_LEFT",
 	"SWING_RIGHT",
-	"FAN"]
+	"FAN",
+	"IDLE",
+	"STIR",
+	"LIFT",
+	"SPIN",
+	"POUR"]
 
 
 func _ready() -> void:

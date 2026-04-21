@@ -40,5 +40,7 @@ func _physics_process(_delta: float) -> void:
 
 
 func _on_client_sensor_batch_received(data_dict: Dictionary) -> void:
+	if not data_dict.has("gesture"):
+		return
 	for key in bucket:
 		bucket[key].append_array(data_dict[key])
