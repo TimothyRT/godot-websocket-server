@@ -1,8 +1,9 @@
 extends Node
 
-
-const MIN_PEAK_THRESHOLD := 20.0
-const MIN_GYRO_THRESHOLD := 150.0
+# Replaced MIN_PEAK_THRESHOLD with ACTIVITY_THRESHOLD
+# Variance measures "change" over time, not raw instantaneous spikes.
+# You will likely need to tune this number! Start around 2.0 to 5.0.
+const ACTIVITY_THRESHOLD := 3.0
 
 enum MOTION {
 	HIT,
@@ -14,46 +15,58 @@ enum MOTION {
 	STIR,
 	LIFT,
 	SPIN,
-	POUR,
 }
 
 var time_steps_to_ignore := 0
-
-var last_predicted_motion: int
-
+var last_predicted_motion: int = MOTION.IDLE
+var is_currently_active := false
 
 func _ready() -> void:
 	SignalBus.client_sensor_stored.connect(_on_client_sensor_stored)
-
 
 func _on_client_sensor_stored(_sample_count: int) -> void:
 	if time_steps_to_ignore > 0:
 		time_steps_to_ignore -= 1
 		return
-
+	
 	var buffer_size := len(SensorDataStore.data_dict["gesture"])
 	if buffer_size < Config.WINDOW_WIDTH:
 		return
-
+	
 	var offset_begin := buffer_size - Config.WINDOW_WIDTH
-	var offset_current: int = buffer_size - ceili(Config.WINDOW_WIDTH / 2.0)
-	var offset_previous := offset_current - 1
-	var offset_next := offset_current + 1
 	var offset_end := buffer_size
+	
+	# 1. Calculate Rolling Variance (Total Movement Energy)
+	var acc_x_window = SensorDataStore.data_dict["acc_x"].slice(offset_begin, offset_end)
+	var acc_y_window = SensorDataStore.data_dict["acc_y"].slice(offset_begin, offset_end)
+	var acc_z_window = SensorDataStore.data_dict["acc_z"].slice(offset_begin, offset_end)
+	
+	var var_x = _get_variance(acc_x_window)
+	var var_y = _get_variance(acc_y_window)
+	var var_z = _get_variance(acc_z_window)
+	
+	var motion_energy = var_x + var_y + var_z
+	
+	# DEBUG: Uncomment this to see what your normal "Idle" energy is versus your "Moving" energy
+	# print("Motion Energy: ", motion_energy)
 
-	var acc_mag := _compute_acc_magnitude(offset_current)
-	var gyro_mag := _compute_gyro_magnitude(offset_current)
+	# 2. State Machine for Triggering Classification
+	if motion_energy > ACTIVITY_THRESHOLD:
+		# The user is actively moving! 
+		is_currently_active = true
+		_trigger_classification(buffer_size)
+		
+	elif is_currently_active and motion_energy <= ACTIVITY_THRESHOLD:
+		# The user just stopped moving.
+		is_currently_active = false
+		last_predicted_motion = MOTION.IDLE
+		play_input_event(MOTION.IDLE)
+		time_steps_to_ignore = 5 # Short cooldown after coming to a rest
 
-	if acc_mag < MIN_PEAK_THRESHOLD and gyro_mag < MIN_GYRO_THRESHOLD:
-		return
-
-	var mag_window := _build_acc_magnitude_window(offset_begin, offset_end)
-	if not _is_peak(mag_window, false):
-		return
-
-	SignalBus.peak_detected.emit()
-
-	var input_arr := []
+func _trigger_classification(buffer_size: int) -> void:
+	var input_arr := []  # should be of length 6 * WINDOW_WIDTH normally
+	
+	# Interleave the data exactly as your model expects it
 	for i in range(buffer_size - Config.WINDOW_WIDTH, buffer_size, 3):
 		input_arr += SensorDataStore.data_dict["gyro_x"].slice(i, i + 3)
 		input_arr += SensorDataStore.data_dict["gyro_y"].slice(i, i + 3)
@@ -61,51 +74,45 @@ func _on_client_sensor_stored(_sample_count: int) -> void:
 		input_arr += SensorDataStore.data_dict["acc_x"].slice(i, i + 3)
 		input_arr += SensorDataStore.data_dict["acc_y"].slice(i, i + 3)
 		input_arr += SensorDataStore.data_dict["acc_z"].slice(i, i + 3)
-
+		
 	var predicted_motion: int = Svc.classify(input_arr)
-
+	
 	if predicted_motion != -1:
 		play_input_event(predicted_motion)
 		SignalBus.classification_made.emit(input_arr, predicted_motion)
-
-		match predicted_motion:
-			MOTION.SHAKE:
-				time_steps_to_ignore = 10
-			MOTION.STIR, MOTION.SPIN:
-				time_steps_to_ignore = 20
-			_:
-				time_steps_to_ignore = 12
-
+		
+		# Adjust cooldowns based on the gesture type
+		if predicted_motion == MOTION.SHAKE or predicted_motion == MOTION.STIR or predicted_motion == MOTION.SPIN:
+			# Shorter cooldown for continuous gestures so they keep firing
+			time_steps_to_ignore = 10 
+		else:
+			# Standard cooldown for discrete strikes
+			time_steps_to_ignore = 12
+		
 		if last_predicted_motion == null or predicted_motion != last_predicted_motion:
 			last_predicted_motion = predicted_motion
 
+# --- UNCHANGED AUDIO/INPUT LOGIC ---
 
 func play_input_event(i: int) -> void:
 	match i:
 		MOTION.HIT:
 			%AudioHit.play()
 			generate_input_event("motion_hit", 0.5)
-		MOTION.SHAKE:
-			%AudioShake.play()
-			generate_input_event("motion_shake", 0.5)
 		MOTION.SWING_LEFT:
 			%AudioSwingLeft.play()
 			generate_input_event("motion_swing_left", 0.5)
 		MOTION.SWING_RIGHT:
 			%AudioSwingRight.play()
 			generate_input_event("motion_swing_right", 0.5)
+		MOTION.SHAKE:
+			%AudioShake.play()
+			generate_input_event("motion_shake", 0.5)
 		MOTION.FAN:
 			%AudioTiltUp.play()
 			generate_input_event("motion_fan", 0.5)
-		MOTION.STIR:
-			generate_input_event("motion_stir", 0.5)
-		MOTION.LIFT:
-			generate_input_event("motion_lift", 0.5)
-		MOTION.SPIN:
-			generate_input_event("motion_spin", 0.5)
 		MOTION.IDLE:
 			generate_input_event("motion_idle", 0.5)
-
 
 func generate_input_event(event_name: String, delay: float, player_index=0) -> void:
 	var input_event = InputEventAction.new()
@@ -117,42 +124,22 @@ func generate_input_event(event_name: String, delay: float, player_index=0) -> v
 	input_event.action = event_name
 	input_event.pressed = true
 	Input.parse_input_event(input_event)
-
+	
 	await get_tree().create_timer(delay).timeout
 	input_event.pressed = false
 	Input.parse_input_event(input_event)
 
-
-func _compute_acc_magnitude(idx: int) -> float:
-	var ax: float = SensorDataStore.data_dict["acc_x"][idx]
-	var ay: float = SensorDataStore.data_dict["acc_y"][idx]
-	var az: float = SensorDataStore.data_dict["acc_z"][idx]
-	return sqrt(ax * ax + ay * ay + az * az)
-
-
-func _compute_gyro_magnitude(idx: int) -> float:
-	var gx: float = SensorDataStore.data_dict["gyro_x"][idx]
-	var gy: float = SensorDataStore.data_dict["gyro_y"][idx]
-	var gz: float = SensorDataStore.data_dict["gyro_z"][idx]
-	return sqrt(gx * gx + gy * gy + gz * gz)
-
-
-func _build_acc_magnitude_window(offset_begin: int, offset_end: int) -> Array[Variant]:
-	var mag_window: Array[Variant] = []
-	for i in range(offset_begin, offset_end):
-		mag_window.append(_compute_acc_magnitude(i))
-	return mag_window
-
-
-func _is_peak(arr: Array[Variant], negativity: bool) -> bool:
-	var offset_midpoint: int = ceili(len(arr) / 2.0)
-	var val_midpoint = arr[offset_midpoint]
-
+func _get_variance(arr: Array) -> float:
+	if arr.is_empty():
+		return 0.0
+		
+	var mean: float = 0.0
 	for val in arr:
-		if negativity:
-			if val < val_midpoint:
-				return false
-		else:
-			if val > val_midpoint:
-				return false
-	return true
+		mean += val
+	mean /= arr.size()
+	
+	var sq_diff_sum: float = 0.0
+	for val in arr:
+		sq_diff_sum += pow(val - mean, 2)
+		
+	return sq_diff_sum / arr.size()
