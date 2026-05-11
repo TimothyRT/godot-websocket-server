@@ -8,14 +8,6 @@ var bucket: Dictionary[String, Array] = {
 	"acc_x": [],
 	"acc_y": [],
 	"acc_z": [],
-	"mag_x": [],
-	"mag_y": [],
-	"mag_z": [],
-	"ahrs_x": [],
-	"ahrs_y": [],
-	"ahrs_z": [],
-	"ahrs_w": [],
-	"datetime": [],
 	"gesture": []
 }
 

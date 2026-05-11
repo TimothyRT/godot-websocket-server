@@ -1,7 +1,7 @@
 extends Node
 
 
-const SAMPLING_RATE := 0.06  # in seconds
+const SAMPLING_RATE := 0.033  # 30Hz
 
 var data_dict = {
 	"gyro_x": [],
@@ -10,14 +10,6 @@ var data_dict = {
 	"acc_x": [],
 	"acc_y": [],
 	"acc_z": [],
-	"mag_x": [],
-	"mag_y": [],
-	"mag_z": [],
-	"ahrs_x": [],
-	"ahrs_y": [],
-	"ahrs_z": [],
-	"ahrs_w": [],
-	"datetime": [],
 	"gesture": []
 }
 
@@ -33,11 +25,8 @@ func _ready() -> void:
 func _on_client_sensor_retrieved(_data_dict: Dictionary) -> void:
 	for key in _data_dict:
 		data_dict[key].append(_data_dict[key])
-	
 	if len(data_dict["gesture"]) > buffer_max_size:
 		var excess = len(data_dict["gesture"]) - buffer_max_size
-	
 		for k in data_dict:
 			data_dict[k] = data_dict[k].slice(excess)
-	
 	SignalBus.client_sensor_stored.emit(1)

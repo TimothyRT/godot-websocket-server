@@ -53,74 +53,57 @@ func _on_client_sensor_stored(_sample_count: int) -> void:
 
 	SignalBus.peak_detected.emit()
 
-	var input_arr := []
-	for i in range(buffer_size - Config.WINDOW_WIDTH, buffer_size, 3):
-		input_arr += SensorDataStore.data_dict["gyro_x"].slice(i, i + 3)
-		input_arr += SensorDataStore.data_dict["gyro_y"].slice(i, i + 3)
-		input_arr += SensorDataStore.data_dict["gyro_z"].slice(i, i + 3)
-		input_arr += SensorDataStore.data_dict["acc_x"].slice(i, i + 3)
-		input_arr += SensorDataStore.data_dict["acc_y"].slice(i, i + 3)
-		input_arr += SensorDataStore.data_dict["acc_z"].slice(i, i + 3)
+	var input_arr := PackedFloat32Array()
+	input_arr.append_array(SensorDataStore.data_dict["gyro_x"].slice(offset_begin, offset_end))
+	input_arr.append_array(SensorDataStore.data_dict["gyro_y"].slice(offset_begin, offset_end))
+	input_arr.append_array(SensorDataStore.data_dict["gyro_z"].slice(offset_begin, offset_end))
+	input_arr.append_array(SensorDataStore.data_dict["acc_x"].slice(offset_begin, offset_end))
+	input_arr.append_array(SensorDataStore.data_dict["acc_y"].slice(offset_begin, offset_end))
+	input_arr.append_array(SensorDataStore.data_dict["acc_z"].slice(offset_begin, offset_end))
+	
+	print("Array Received: ", input_arr)
+
+	# Debug size
+	if input_arr.size() != 90:
+		print("ERROR: Array size is ", input_arr.size(), " (Expected 90). Classifier will fail.")
 
 	var predicted_motion: int = Svc.classify(input_arr)
+	print("Prediction Guess: ", predicted_motion)
 
 	if predicted_motion != -1:
-		play_input_event(predicted_motion)
 		SignalBus.classification_made.emit(input_arr, predicted_motion)
 
 		match predicted_motion:
-			MOTION.SHAKE:
-				time_steps_to_ignore = 10
-			MOTION.STIR, MOTION.SPIN:
-				time_steps_to_ignore = 20
-			_:
+			MOTION.HIT:
 				time_steps_to_ignore = 12
+				%AudioHit.play()
+			MOTION.SHAKE:
+				time_steps_to_ignore = 5
+				%AudioShake.play()
+			MOTION.SWING_LEFT:
+				time_steps_to_ignore = 15
+				%AudioSwingLeft.play()
+			MOTION.SWING_RIGHT:
+				time_steps_to_ignore = 15
+				%AudioSwingRight.play()
+			MOTION.FAN:
+				time_steps_to_ignore = 12
+				#%AudioFan.play()
+			MOTION.STIR:
+				time_steps_to_ignore = 20
+				#%AudioStir.play()
+			MOTION.SPIN:
+				time_steps_to_ignore = 12
+				#%AudioSpin.play()
+			MOTION.LIFT:
+				time_steps_to_ignore = 12
+				#%AudioLift.play()
+			MOTION.POUR:
+				time_steps_to_ignore = 12
+				#%AudioPour.play()
 
 		if last_predicted_motion == null or predicted_motion != last_predicted_motion:
 			last_predicted_motion = predicted_motion
-
-
-func play_input_event(i: int) -> void:
-	match i:
-		MOTION.HIT:
-			%AudioHit.play()
-			generate_input_event("motion_hit", 0.5)
-		MOTION.SHAKE:
-			%AudioShake.play()
-			generate_input_event("motion_shake", 0.5)
-		MOTION.SWING_LEFT:
-			%AudioSwingLeft.play()
-			generate_input_event("motion_swing_left", 0.5)
-		MOTION.SWING_RIGHT:
-			%AudioSwingRight.play()
-			generate_input_event("motion_swing_right", 0.5)
-		MOTION.FAN:
-			%AudioTiltUp.play()
-			generate_input_event("motion_fan", 0.5)
-		MOTION.STIR:
-			generate_input_event("motion_stir", 0.5)
-		MOTION.LIFT:
-			generate_input_event("motion_lift", 0.5)
-		MOTION.SPIN:
-			generate_input_event("motion_spin", 0.5)
-		MOTION.IDLE:
-			generate_input_event("motion_idle", 0.5)
-
-
-func generate_input_event(event_name: String, delay: float, player_index=0) -> void:
-	var input_event = InputEventAction.new()
-	if player_index == 0 or player_index == 1:
-		input_event.strength = player_index
-	else:
-		print("player_index must either be 0 (for player #1) or 1 (for player #2).")
-		return
-	input_event.action = event_name
-	input_event.pressed = true
-	Input.parse_input_event(input_event)
-
-	await get_tree().create_timer(delay).timeout
-	input_event.pressed = false
-	Input.parse_input_event(input_event)
 
 
 func _compute_acc_magnitude(idx: int) -> float:
