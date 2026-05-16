@@ -1,7 +1,7 @@
 extends Node
 
 
-const MIN_PEAK_THRESHOLD := 20.0
+const MIN_PEAK_THRESHOLD := 18.5
 const MIN_GYRO_THRESHOLD := 150.0
 
 enum MOTION {
