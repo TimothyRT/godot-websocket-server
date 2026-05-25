@@ -17,6 +17,7 @@ func _ready() -> void:
 	print("[UDP] Listening on port %d" % PORT)
 	print("[UDP] Local IP: ", IpAddress.ip)
 
+
 func _process(_delta) -> void:
 	while udp.get_available_packet_count() > 0:
 		var packet = udp.get_packet()
@@ -36,6 +37,7 @@ func _process(_delta) -> void:
 			send_to_client("STATUS:ALIVE")
 			time_since_last_heartbeat = 0.0
 
+
 func _parse_binary_sensors(packet: PackedByteArray) -> void:
 	if packet.size() < 27: 
 		print("[UDP-ERROR] Received incomplete packet. Size: ", packet.size(), " bytes")
@@ -53,10 +55,12 @@ func _parse_binary_sensors(packet: PackedByteArray) -> void:
 	])
 	SignalBus.client_sensor_retrieved.emit(sensor_sample)
 
+
 func _parse_message(msg: String) -> void:
 	if msg.begins_with("CMD:") or msg.begins_with("AXIS:") or msg.begins_with("BTN:"):
 		_handle_command(msg)
 		return
+
 
 func _handle_command(msg: String) -> void:
 	match msg:
@@ -66,11 +70,13 @@ func _handle_command(msg: String) -> void:
 		_:
 			print("[UDP] Unknown command: ", msg)
 
+
 func send_to_client(msg: String) -> void:
 	if client_ip == "" or client_port < 0:
 		return
 	udp.set_dest_address(client_ip, client_port)
 	udp.put_packet(msg.to_utf8_buffer())
+
 
 func stop_connection() -> void:
 	print("[UDP] Shutting down")

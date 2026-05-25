@@ -10,11 +10,16 @@ config_version=5
 
 [application]
 
-config/name="GodotWebsocketServer"
-config/version="0.1.5"
+config/name="IMU Sensor Data Collection"
+config/version="0.1.6"
 run/main_scene="uid://wlic4fvv32tb"
 config/features=PackedStringArray("4.5", "GL Compatibility")
+boot_splash/bg_color=Color(0.13682395, 0.13682649, 0.13682526, 1)
+boot_splash/fullsize=false
+boot_splash/image="uid://sqjmy1s05mim"
 config/icon="res://icon.svg"
+config/windows_native_icon="res://icon.ico"
+boot_splash/minimum_display_time=100
 
 [autoload]
 

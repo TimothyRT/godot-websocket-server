@@ -94,7 +94,7 @@ theme_override_constants/margin_bottom = 20
 
 [node name="GoToLabellingButton" parent="PlotLayer/ScrollContainer/VBoxContainer/MarginContainer" instance=ExtResource("4_3igcu")]
 layout_mode = 2
-text = "Click to begin labeling data points"
+text = "Open CSV storage directory"
 
 [node name="MarginContainer2" type="MarginContainer" parent="PlotLayer/ScrollContainer/VBoxContainer"]
 layout_mode = 2

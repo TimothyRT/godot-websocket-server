@@ -65,7 +65,6 @@ func _setup_plot():
 
 
 func _on_client_sensor_stored(_sample_count: int) -> void:
-	#print("stored: ", str(SensorDataStore.data_dict["gesture"]))
 	plot["gyroscope"]["x"].remove_all()
 	plot["gyroscope"]["y"].remove_all()
 	plot["gyroscope"]["z"].remove_all()
