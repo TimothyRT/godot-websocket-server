@@ -2,7 +2,7 @@ extends ONNXLoader
 class_name SVC
 
 func _ready() -> void:
-	load_model("onnx/v4/clf_svm_ori.onnx")
+	load_model("onnx/v4/clf_svm_ori_final.onnx")
 
 func classify(input_arr: Array) -> int:
 	if len(input_arr) < 90:
